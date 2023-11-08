@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagerRemake.App", "TaskManagerRemake.App\TaskManagerRemake.App.csproj", "{B01C6843-2563-4BD6-A8A5-95706F989309}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B01C6843-2563-4BD6-A8A5-95706F989309}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B01C6843-2563-4BD6-A8A5-95706F989309}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B01C6843-2563-4BD6-A8A5-95706F989309}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B01C6843-2563-4BD6-A8A5-95706F989309}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F281F31F-69A6-42CA-A288-BD82AA7AD0FC}
+	EndGlobalSection
+EndGlobal
