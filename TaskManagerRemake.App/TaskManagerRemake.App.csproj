@@ -69,6 +69,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\CPUs\CPU.cs" />
+    <Compile Include="Models\Memories\Memory.cs" />
+    <Compile Include="Models\Processes\Process.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
