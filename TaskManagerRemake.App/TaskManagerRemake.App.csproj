@@ -55,7 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Services\Tabs\CPUTab.cs" />
+    <Compile Include="Services\Tabs\PerformanceTab.cs" />
+    <Compile Include="Services\Tabs\ProcessTab.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

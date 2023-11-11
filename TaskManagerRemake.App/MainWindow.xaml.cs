@@ -73,14 +73,14 @@ namespace TaskManagerRemake.App
 
         public void CreateCPUTab()
         {
-            CPUTab cputab = new CPUTab();
-            cputab.InitCPUTab();
+            PerformanceTab perfTab = new PerformanceTab();
+            perfTab.InitPerformanceTab();
 
-            cputab.getCurrentCpuUsage();
-            cputab.getAvailableRAM();
+            perfTab.GetCurrentCpuUsage();
+            perfTab.GetAvailableRAM();
             Thread.Sleep(100);
-            string cpuRes = cputab.getCurrentCpuUsage();
-            string ramRes = cputab.getAvailableRAM();
+            string cpuRes = perfTab.GetCurrentCpuUsage();
+            string ramRes = perfTab.GetAvailableRAM();
             Debug.WriteLine($"CPU USAGE {cpuRes}, RAM available {ramRes}");
         }
     }

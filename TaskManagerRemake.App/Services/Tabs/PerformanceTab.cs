@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 // http://zamov.online.fr/EXHTML/CSharp/CSharp_927308.html
 namespace TaskManagerRemake.App.Services.Tabs
 {
-    public class CPUTab
+    public class PerformanceTab
     {
         PerformanceCounter cpuCounter;
         PerformanceCounter ramCounter;
-        public CPUTab()
+        public PerformanceTab()
         { 
-            InitCPUTab();
+            InitPerformanceTab();
         }
-        public void InitCPUTab()
+        public void InitPerformanceTab()
         {
             this.cpuCounter = new PerformanceCounter();
             this.ramCounter = new PerformanceCounter();
@@ -29,12 +29,12 @@ namespace TaskManagerRemake.App.Services.Tabs
             ramCounter.CounterName = "Available MBytes";
         }
 
-        public string getCurrentCpuUsage()
+        public string GetCurrentCpuUsage()
         {
             return this.cpuCounter.NextValue() + "%";
         }
 
-        public string getAvailableRAM()
+        public string GetAvailableRAM()
         {
             return this.ramCounter.NextValue() + "Mb";
         }
