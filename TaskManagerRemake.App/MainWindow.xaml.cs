@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TaskManagerRemake.App.Services.Tabs;
 
 namespace TaskManagerRemake.App
 {
@@ -24,7 +25,8 @@ namespace TaskManagerRemake.App
         public MainWindow()
         {
             InitializeComponent();
-            InitProcessesTab();
+            // InitProcessesTab();
+            CreateCPUTab();
         }
 
         public void InitProcessesTab()
@@ -67,6 +69,19 @@ namespace TaskManagerRemake.App
                 currentRow.Cells.Add(new TableCell(new Paragraph(new Run($"{process.Id}"))));
                 currentRow.Cells.Add(new TableCell(new Paragraph(new Run($"{process.PagedMemorySize64}"))));
             }
+        }
+
+        public void CreateCPUTab()
+        {
+            CPUTab cputab = new CPUTab();
+            cputab.InitCPUTab();
+
+            cputab.getCurrentCpuUsage();
+            cputab.getAvailableRAM();
+            Thread.Sleep(100);
+            string cpuRes = cputab.getCurrentCpuUsage();
+            string ramRes = cputab.getAvailableRAM();
+            Debug.WriteLine($"CPU USAGE {cpuRes}, RAM available {ramRes}");
         }
     }
 }
