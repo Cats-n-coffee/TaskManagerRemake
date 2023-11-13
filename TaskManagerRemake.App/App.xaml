@@ -1,7 +1,7 @@
-﻿<Application x:Class="TaskManagerRemake.App.App"
+﻿<Application x:Class="TaskManagerRemake.WPF.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:TaskManagerRemake.App"
+             xmlns:local="clr-namespace:TaskManagerRemake.WPF"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          

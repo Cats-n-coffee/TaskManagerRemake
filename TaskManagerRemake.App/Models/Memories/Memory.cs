@@ -1,4 +1,4 @@
-﻿namespace TaskManagerRemake.App.Models.Memories
+﻿namespace TaskManagerRemake.WPF.Models.Memories
 {
     public class Memory
     {

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 // http://zamov.online.fr/EXHTML/CSharp/CSharp_927308.html
-namespace TaskManagerRemake.App.Services.Tabs
+namespace TaskManagerRemake.WPF.Services.Tabs
 {
     public class PerformanceTab
     {

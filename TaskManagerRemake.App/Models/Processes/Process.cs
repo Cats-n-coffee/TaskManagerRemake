@@ -1,4 +1,4 @@
-﻿namespace TaskManagerRemake.App.Models.Processes
+﻿namespace TaskManagerRemake.WPF.Models.Processes
 {
     public class Process
     {

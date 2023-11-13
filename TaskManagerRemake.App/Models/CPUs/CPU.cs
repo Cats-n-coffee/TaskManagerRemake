@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TaskManagerRemake.App.Models.CPUs
+namespace TaskManagerRemake.WPF.Models.CPUs
 {
     public class CPU
     {
