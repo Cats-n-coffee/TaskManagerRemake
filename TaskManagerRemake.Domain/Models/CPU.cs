@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TaskManagerRemake.WPF.Models.CPUs
+namespace TaskManagerRemake.Domain.Models
 {
     public class CPU
     {
@@ -16,9 +16,9 @@ namespace TaskManagerRemake.WPF.Models.CPUs
         public float BaseSpeed { get; set; }
         public int Sockets { get; set; }
         public int Cores { get; set; }
-        public int LogicalProcessors {  get; set; }
-        public float L1Cache {  get; set; }
-        public float L2Cache { get; set;}
-        public float L3Cache { get; set;}
+        public int LogicalProcessors { get; set; }
+        public float L1Cache { get; set; }
+        public float L2Cache { get; set; }
+        public float L3Cache { get; set; }
     }
 }

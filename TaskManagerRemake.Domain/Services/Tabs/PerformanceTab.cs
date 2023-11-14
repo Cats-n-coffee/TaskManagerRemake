@@ -13,7 +13,7 @@ namespace TaskManagerRemake.WPF.Services.Tabs
         PerformanceCounter cpuCounter;
         PerformanceCounter ramCounter;
         public PerformanceTab()
-        { 
+        {
             InitPerformanceTab();
         }
         public void InitPerformanceTab()
