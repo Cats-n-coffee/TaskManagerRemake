@@ -7,8 +7,24 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <FlowDocumentScrollViewer>
-            <FlowDocument x:Name="TableParent"/>
-        </FlowDocumentScrollViewer>
+
+        <TabControl>
+            <TabItem Header="Processes">
+                <ContentControl>
+                    <TextBlock Text="Processes tab" />
+                </ContentControl>
+            </TabItem>
+            <TabItem Header="Performance">
+                <ContentControl>
+                    <TextBlock Text="Performance tab" />
+                </ContentControl>
+            </TabItem>
+            <TabItem Header="Users">
+                <ContentControl>
+                    <TextBlock Text="Users tab" />
+                </ContentControl>
+            </TabItem>
+        </TabControl>
+        
     </Grid>
 </Window>

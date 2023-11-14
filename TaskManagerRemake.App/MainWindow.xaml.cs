@@ -13,7 +13,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using TaskManagerRemake.WPF.Services.Tabs;
 
 namespace TaskManagerRemake.WPF
 {
@@ -36,7 +35,6 @@ namespace TaskManagerRemake.WPF
 
             // FlowDocument tableParent = (FlowDocument)this.FindName("TableParent");
             Table processesTable = new Table();
-            this.TableParent.Blocks.Add(processesTable);
 
             processesTable.CellSpacing = 10;
             processesTable.Background = Brushes.White;
@@ -74,21 +72,21 @@ namespace TaskManagerRemake.WPF
 
         public void CreateProcessesTab()
         {
-            ProcessTab processTab = new ProcessTab();
-            processTab.InitProcessesTab();
+            // ProcessTab processTab = new ProcessTab();
+            // processTab.InitProcessesTab();
         }
 
         public void CreatePerformanceTab()
         {
-            PerformanceTab perfTab = new PerformanceTab();
-            perfTab.InitPerformanceTab();
+            // PerformanceTab perfTab = new PerformanceTab();
+            // perfTab.InitPerformanceTab();
 
-            perfTab.GetCurrentCpuUsage();
-            perfTab.GetAvailableRAM();
-            Thread.Sleep(100);
-            string cpuRes = perfTab.GetCurrentCpuUsage();
-            string ramRes = perfTab.GetAvailableRAM();
-            Debug.WriteLine($"CPU USAGE {cpuRes}, RAM available {ramRes}");
+            // perfTab.GetCurrentCpuUsage();
+            // perfTab.GetAvailableRAM();
+            // Thread.Sleep(100);
+            // string cpuRes = perfTab.GetCurrentCpuUsage();
+            // string ramRes = perfTab.GetAvailableRAM();
+            // Debug.WriteLine($"CPU USAGE {cpuRes}, RAM available {ramRes}");
         }
     }
 }
