@@ -23,7 +23,11 @@
             </TabItem>
             <TabItem Header="Performance">
                 <ContentControl>
-                    <TextBlock Text="Performance tab" />
+                    <ContentControl.ContentTemplate>
+                        <DataTemplate DataType="{x:Type viewmodels:ProcessViewModel}">
+                            <views:ProcessView />
+                        </DataTemplate>
+                    </ContentControl.ContentTemplate>
                 </ContentControl>
             </TabItem>
             <TabItem Header="Users">
