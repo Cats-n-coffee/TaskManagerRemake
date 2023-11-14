@@ -115,5 +115,11 @@
   <ItemGroup>
     <Folder Include="Controls\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TaskManagerRemake.Domain\TaskManagerRemake.Domain.csproj">
+      <Project>{768c7559-d467-4a8a-8b2f-4ad7a74c9937}</Project>
+      <Name>TaskManagerRemake.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

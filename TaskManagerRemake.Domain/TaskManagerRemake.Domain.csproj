@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="Models\CPU.cs" />
     <Compile Include="Models\Memory.cs" />
-    <Compile Include="Models\Process.cs" />
+    <Compile Include="Models\ProcessItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Tabs\PerformanceTab.cs" />
     <Compile Include="Services\Tabs\ProcessTab.cs" />
