@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TaskManagerRemake.App.Views
+namespace TaskManagerRemake.WPF.Views
 {
     /// <summary>
     /// Interaction logic for ProcessView.xaml

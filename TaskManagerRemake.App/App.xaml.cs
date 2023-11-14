@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using TaskManagerRemake.WPF.ViewModels;
 
 namespace TaskManagerRemake.WPF
 {
@@ -13,5 +14,12 @@ namespace TaskManagerRemake.WPF
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            Window window = new MainWindow() { DataContext = new MainViewModel()};
+            window.Show();
+        }
     }
 }

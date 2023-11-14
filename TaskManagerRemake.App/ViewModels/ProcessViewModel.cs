@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TaskManagerRemake.App.ViewModels;
+using TaskManagerRemake.WPF.ViewModels;
 
 namespace TaskManagerRemake.WPF.ViewModels
 {

@@ -4,14 +4,21 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskManagerRemake.WPF"
+        xmlns:views="clr-namespace:TaskManagerRemake.WPF.Views"
+        xmlns:viewmodels="clr-namespace:TaskManagerRemake.WPF.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Task Manager II" Height="450" Width="800">
+
     <Grid>
 
         <TabControl>
             <TabItem Header="Processes">
                 <ContentControl>
-                    <TextBlock Text="Processes tab" />
+                    <ContentControl.ContentTemplate>
+                        <DataTemplate DataType="{x:Type viewmodels:ProcessViewModel}">
+                            <views:ProcessView />
+                        </DataTemplate>
+                    </ContentControl.ContentTemplate>
                 </ContentControl>
             </TabItem>
             <TabItem Header="Performance">
