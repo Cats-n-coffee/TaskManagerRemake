@@ -6,15 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using TaskManagerRemake.Domain.Models;
 
-namespace TaskManagerRemake.WPF.Services.Tabs
+namespace TaskManagerRemake.Domain.Services.Tabs
 {
     public class ProcessTab
     {
-        public ProcessTab()
-        {
-            InitProcessesTab();
-        }
-        public List<ProcessItem> InitProcessesTab()
+        public static List<ProcessItem> GetProcessesForTab()
         {
             Process[] allProcesses = Process.GetProcesses();
             List<ProcessItem> processList = new List<ProcessItem>();
