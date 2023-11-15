@@ -24,50 +24,6 @@ namespace TaskManagerRemake.WPF
         public MainWindow()
         {
             InitializeComponent();
-            // InitProcessesTab();
-            CreatePerformanceTab();
-            // CreateProcessesTab();
-        }
-
-        public void InitProcessesTab()
-        {
-            Process[] allProcesses = Process.GetProcesses();
-
-            // FlowDocument tableParent = (FlowDocument)this.FindName("TableParent");
-            Table processesTable = new Table();
-
-            processesTable.CellSpacing = 10;
-            processesTable.Background = Brushes.White;
-
-            // Add columns
-            for (int i = 0; i < 4; i++)
-            {
-                processesTable.Columns.Add(new TableColumn());
-            }
-            
-            // Add header row
-            processesTable.RowGroups.Add(new TableRowGroup());
-            processesTable.RowGroups[0].Rows.Add(new TableRow());
-            
-            TableRow headerRow = processesTable.RowGroups[0].Rows[0];
-            headerRow.Background = Brushes.Silver;
-            headerRow.FontSize = 20;
-
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Name"))));
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Id"))));
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Paged Mem Size"))));
-
-            // Add data rows to the table
-            for (int i = 0; i < allProcesses.Length; i++)
-            {
-                Process process = allProcesses[i];
-
-                processesTable.RowGroups[0].Rows.Add(new TableRow());
-                TableRow currentRow = processesTable.RowGroups[0].Rows[i + 1]; // minus header row
-                currentRow.Cells.Add(new TableCell(new Paragraph(new Run($"{process.ProcessName}"))));
-                currentRow.Cells.Add(new TableCell(new Paragraph(new Run($"{process.Id}"))));
-                currentRow.Cells.Add(new TableCell(new Paragraph(new Run($"{process.PagedMemorySize64}"))));
-            }
         }
 
         public void CreateProcessesTab()

@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskManagerRemake.WPF"
         xmlns:views="clr-namespace:TaskManagerRemake.WPF.Views"
-        xmlns:viewmodels="clr-namespace:TaskManagerRemake.WPF.ViewModels"
         mc:Ignorable="d"
         Title="Task Manager II" Height="450" Width="800">
 
@@ -15,7 +14,7 @@
             <TabItem Header="Processes">
                 <ContentControl>
                     <ContentControl.ContentTemplate>
-                        <DataTemplate DataType="{x:Type viewmodels:ProcessViewModel}">
+                        <DataTemplate>
                             <views:ProcessView />
                         </DataTemplate>
                     </ContentControl.ContentTemplate>
@@ -24,8 +23,8 @@
             <TabItem Header="Performance">
                 <ContentControl>
                     <ContentControl.ContentTemplate>
-                        <DataTemplate DataType="{x:Type viewmodels:ProcessViewModel}">
-                            <views:ProcessView />
+                        <DataTemplate>
+                            <views:PerformanceView />
                         </DataTemplate>
                     </ContentControl.ContentTemplate>
                 </ContentControl>
