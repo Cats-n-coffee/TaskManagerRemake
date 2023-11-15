@@ -4,9 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TaskManagerRemake.WPF.Views"
+             xmlns:viewmodels="clr-namespace:TaskManagerRemake.WPF.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:ProcessViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="This is the process view"/>
+
+        <DataGrid ItemsSource="{Binding AllProcesses}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
     </Grid>
 </UserControl>
