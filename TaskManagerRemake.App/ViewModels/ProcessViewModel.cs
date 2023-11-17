@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace TaskManagerRemake.WPF.ViewModels
 {
-    public class ProcessViewModel : BaseViewModel
+    public class ProcessViewModel : ViewModelBase
     {
         private List<ProcessItem> _allProcesses;
         

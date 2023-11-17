@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace TaskManagerRemake.WPF.ViewModels
 {
-    public class MainViewModel : BaseViewModel
+    public class MainViewModel : ViewModelBase
     {
         // Main view model to use as central view model for the app
         // manage current view
         // gives bindings to the sidebar/navbar
-        private BaseViewModel _currentViewModel;
+        private ViewModelBase _currentViewModel;
 
-        public BaseViewModel CurrentViewModel
+        public ViewModelBase CurrentViewModel
         {
             get { return _currentViewModel; }
             set

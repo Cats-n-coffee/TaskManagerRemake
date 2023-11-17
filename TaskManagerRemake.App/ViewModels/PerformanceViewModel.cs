@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TaskManagerRemake.WPF.ViewModels
 {
-    public class PerformanceViewModel : BaseViewModel
+    public class PerformanceViewModel : ViewModelBase
     {
     }
 }

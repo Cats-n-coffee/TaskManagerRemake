@@ -5,7 +5,7 @@
 
 namespace TaskManagerRemake.WPF.ViewModels
 {
-    public abstract class BaseViewModel : INotifyPropertyChanged
+    public abstract class ViewModelBase : INotifyPropertyChanged
     {
         public virtual void Dispose() { }
         public event PropertyChangedEventHandler PropertyChanged;
