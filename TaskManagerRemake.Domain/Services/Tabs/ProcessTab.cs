@@ -8,7 +8,7 @@ using TaskManagerRemake.Domain.Models;
 
 namespace TaskManagerRemake.Domain.Services.Tabs
 {
-    public class ProcessTab
+    public static class ProcessTab
     {
         public static List<ProcessItem> GetProcessesForTab()
         {
