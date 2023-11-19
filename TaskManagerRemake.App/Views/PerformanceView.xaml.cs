@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TaskManagerRemake.WPF.ViewModels;
 
 namespace TaskManagerRemake.WPF.Views
 {
@@ -23,6 +24,7 @@ namespace TaskManagerRemake.WPF.Views
         public PerformanceView()
         {
             InitializeComponent();
+            DataContext = new PerformanceViewModel();
         }
     }
 }
