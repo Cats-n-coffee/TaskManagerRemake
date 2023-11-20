@@ -5,6 +5,7 @@ using System.Linq;
 using System.Management;
 using System.Text;
 using System.Threading.Tasks;
+using TaskManagerRemake.Domain.Models;
 
 namespace TaskManagerRemake.Domain.Services.PerformanceTab
 {
@@ -41,6 +42,12 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             Int64 capacityInGb = capacityInBytes / Convert.ToInt64(Math.Pow(1024, 3));
 
             return capacityInGb.ToString();
+        }
+
+        public List<StaticPerformanceStats> GetStaticStats()
+        {
+
+            return new List<StaticPerformanceStats>();
         }
 
         public string GetAvailableRAM()
