@@ -9,5 +9,6 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
     public interface IPerformanceItem
     {
         string GetTabTitle();
+        string GetTabSpecs();
     }
 }
