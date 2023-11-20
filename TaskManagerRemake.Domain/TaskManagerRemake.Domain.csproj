@@ -45,8 +45,10 @@
     <Compile Include="Models\Memory.cs" />
     <Compile Include="Models\ProcessItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Tabs\PerformanceTab.cs" />
-    <Compile Include="Services\Tabs\ProcessTab.cs" />
+    <Compile Include="Services\PerformanceTab\CpuTab.cs" />
+    <Compile Include="Services\PerformanceTab\IPerformanceItem.cs" />
+    <Compile Include="Services\PerformanceTab\MemoryTab.cs" />
+    <Compile Include="Services\ProcessTab\ProcessTab.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TaskManagerRemake.Domain.Services.Tabs;
+using TaskManagerRemake.Domain.Services.PerformanceTab;
 
 namespace TaskManagerRemake.WPF.ViewModels
 {
     public class PerformanceViewModel : ViewModelBase
     {
-        private readonly PerformanceTab _performanceTab;
+        private readonly CpuTab _cpuTab;
+        private readonly MemoryTab _memoryTab;
+
         private string _cpuUsage;
 
         public string CpuUsage
@@ -32,13 +34,16 @@ namespace TaskManagerRemake.WPF.ViewModels
             }
         }
 
+        public List<IPerformanceItem> performanceDetailsList = new List<IPerformanceItem> ();
+
 
         public PerformanceViewModel()
         {
-            _performanceTab = new PerformanceTab();
+            _cpuTab = new CpuTab();
+            _memoryTab = new MemoryTab();
 
-            CpuUsage = _performanceTab.GetCurrentCpuUsage();
-            RamUsage = _performanceTab.GetAvailableRAM();
+            CpuUsage = _cpuTab.GetCurrentCpuUsage();
+            RamUsage = _memoryTab.GetAvailableRAM();
         }
 
     }

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TaskManagerRemake.Domain.Models;
 
-namespace TaskManagerRemake.Domain.Services.Tabs
+namespace TaskManagerRemake.Domain.Services.ProcessTab
 {
     public static class ProcessTab
     {
