@@ -42,9 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\CPU.cs" />
+    <Compile Include="Models\CPUDynamicData.cs" />
+    <Compile Include="Models\CPUStaticData.cs" />
     <Compile Include="Models\Memory.cs" />
     <Compile Include="Models\ProcessItem.cs" />
+    <Compile Include="Models\StaticPerformanceStats.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\PerformanceTab\CpuTab.cs" />
     <Compile Include="Services\PerformanceTab\IPerformanceItem.cs" />

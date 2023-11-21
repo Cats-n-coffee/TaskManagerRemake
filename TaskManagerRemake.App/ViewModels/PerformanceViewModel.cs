@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskManagerRemake.Domain.Models;
 using TaskManagerRemake.Domain.Services.PerformanceTab;
 
 namespace TaskManagerRemake.WPF.ViewModels
@@ -34,6 +37,8 @@ namespace TaskManagerRemake.WPF.ViewModels
             }
         }
 
+        public ObservableCollection<StaticPerformanceStats> StaticStats { get; set; }
+
         public List<IPerformanceItem> performanceDetailsList = new List<IPerformanceItem> ();
 
 
@@ -44,6 +49,8 @@ namespace TaskManagerRemake.WPF.ViewModels
 
             CpuUsage = _cpuTab.GetCurrentCpuUsage();
             RamUsage = _memoryTab.GetAvailableRAM();
+
+            StaticStats = new ObservableCollection<StaticPerformanceStats>(_cpuTab.GetStaticStats());
         }
 
     }

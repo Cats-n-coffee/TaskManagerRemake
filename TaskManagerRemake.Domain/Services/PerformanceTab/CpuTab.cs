@@ -59,8 +59,22 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
 
         public List<StaticPerformanceStats> GetStaticStats()
         {
+            GetTabSpecs();
+            // Missing the one for L1 cache
+            
+            List<StaticPerformanceStats> staticStatsList = new List<StaticPerformanceStats>();
+            var staticDataToList = staticData.GetType().GetProperties().ToList();
+            
+            foreach (System.Reflection.PropertyInfo stat in staticDataToList)
+            {
+                StaticPerformanceStats staticItem = new StaticPerformanceStats();
+                staticItem.StaticPerformanceKey = stat.Name;
+                staticItem.StaticPerformanceValue = stat.GetValue(staticData, null).ToString();
 
-            return new List<StaticPerformanceStats>();
+                staticStatsList.Add(staticItem);
+            }
+
+            return staticStatsList;
         }
 
         public string GetCurrentCpuUsage() // this might be part of a bigger function to use on interface

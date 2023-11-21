@@ -55,16 +55,51 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\PerformanceDetailsTitleBar.xaml.cs">
+      <DependentUpon>PerformanceDetailsTitleBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PerformanceLineGraph.xaml.cs">
+      <DependentUpon>PerformanceLineGraph.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PerformanceStaticBar.xaml.cs">
+      <DependentUpon>PerformanceStaticBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PerformanceThumbnail.xaml.cs">
+      <DependentUpon>PerformanceThumbnail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\PerformanceDetailsTitleBarViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PerformanceViewModel.cs" />
     <Compile Include="ViewModels\ProcessViewModel.cs" />
+    <Compile Include="Views\DetailViews\CpuDetailsView.xaml.cs">
+      <DependentUpon>CpuDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DetailViews\MemoryDetailsView.xaml.cs">
+      <DependentUpon>MemoryDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PerformanceView.xaml.cs">
       <DependentUpon>PerformanceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ProcessView.xaml.cs">
       <DependentUpon>ProcessView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\PerformanceDetailsTitleBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\PerformanceLineGraph.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\PerformanceStaticBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\PerformanceThumbnail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -77,6 +112,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\DetailViews\CpuDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DetailViews\MemoryDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PerformanceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -112,9 +155,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controls\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\TaskManagerRemake.Domain\TaskManagerRemake.Domain.csproj">
       <Project>{768c7559-d467-4a8a-8b2f-4ad7a74c9937}</Project>

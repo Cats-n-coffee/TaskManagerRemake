@@ -11,20 +11,20 @@
     <Grid>
 
         <TabControl>
-            <TabItem Header="Processes">
-                <ContentControl>
-                    <ContentControl.ContentTemplate>
-                        <DataTemplate>
-                            <views:ProcessView />
-                        </DataTemplate>
-                    </ContentControl.ContentTemplate>
-                </ContentControl>
-            </TabItem>
             <TabItem Header="Performance">
                 <ContentControl>
                     <ContentControl.ContentTemplate>
                         <DataTemplate>
                             <views:PerformanceView />
+                        </DataTemplate>
+                    </ContentControl.ContentTemplate>
+                </ContentControl>
+            </TabItem>
+            <TabItem Header="Processes">
+                <ContentControl>
+                    <ContentControl.ContentTemplate>
+                        <DataTemplate>
+                            <views:ProcessView />
                         </DataTemplate>
                     </ContentControl.ContentTemplate>
                 </ContentControl>
