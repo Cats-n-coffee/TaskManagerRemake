@@ -17,53 +17,86 @@
  
     <Grid>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-        <ListBox Grid.Column="0">
-            <ListBoxItem>
-                <TextBlock Text="CPU"/>
-            </ListBoxItem>
-            <ListBoxItem>
-                <TextBlock Text="Memory"/>
-            </ListBoxItem>
-        </ListBox>
-        
-        <ContentControl Grid.Column="1" Content="{Binding Source={StaticResource PerfVM}}">
-            <ContentControl.ContentTemplate>
-                <DataTemplate>
-                    <Grid>
-                        
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Text="Static performance row"/>
 
-                        <TextBlock Grid.Column="0" Text="{Binding CpuUsage}"/>
-                        <TextBlock Grid.Column="1" Text="{Binding RamUsage}" />
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            
+            <!-- Performance tabs -->
+            <ListBox Grid.Column="0">
+                <ListBoxItem>
+                    <TextBlock Text="CPU"/>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <TextBlock Text="Memory"/>
+                </ListBoxItem>
+            </ListBox>
+            
+            <!-- Tab content -->
+            <ContentControl Grid.Column="1" Content="{Binding Source={StaticResource PerfVM}}">
+                <ContentControl.ContentTemplate>
+                    <DataTemplate>
+                        <Grid>
 
-                        <ListBox Grid.Column="2" ItemsSource="{Binding Source={StaticResource PerfVM}, Path=StaticStats}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="auto" />
-                                            <ColumnDefinition Width="auto" />
-                                        </Grid.ColumnDefinitions>
-                                        
-                                        <TextBlock Grid.Column="0" Text="{Binding StaticPerformanceKey}"/>
-                                        <TextBlock Grid.Column="1" Text="{Binding StaticPerformanceValue}"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </Grid>
-                </DataTemplate>
-            </ContentControl.ContentTemplate>
-        </ContentControl>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0">
+                                <TextBlock Text="Tab title + subtitle" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1">
+                                <TextBlock Text="Graphs area - probably a dynamic grid?" />
+                            </StackPanel>
+
+                            <!-- Stats -->
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <!-- Dynamic stats -->
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Dynamic stats"/>
+                                    <TextBlock Text="{Binding CpuUsage}"/>
+                                    <TextBlock Text="{Binding RamUsage}" />
+                                </StackPanel>
+                                
+                                <!-- Static stats -->
+                                <DataGrid
+                                    Grid.Column="1"
+                                    ItemsSource="{Binding Source={StaticResource PerfVM}, Path=StaticStats}"
+                                    AutoGenerateColumns="False"
+                                    CanUserReorderColumns="False"
+                                    CanUserSortColumns="False"
+                                    CanUserResizeRows="False"
+                                    HeadersVisibility="None"
+                                    IsReadOnly="True">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding StaticPerformanceKey}"/>
+                                        <DataGridTextColumn Binding="{Binding StaticPerformanceValue}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
+                            </Grid>
+                                
+                        </Grid>
+                    </DataTemplate>
+                </ContentControl.ContentTemplate>
+            </ContentControl>
+        </Grid>
+
     </Grid>
 </UserControl>
