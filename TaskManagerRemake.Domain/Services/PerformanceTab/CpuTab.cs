@@ -42,9 +42,9 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
                 foreach (ManagementObject obj in win32Proc.Get())
                 {
                     staticData.LogicalProcessors = obj["NumberOfLogicalProcessors"].ToString();
-                    // staticData.L1Cache = obj[].ToString(); need another API
-                    staticData.L2Cache = $"{obj["L2CacheSize"]} MB";
-                    staticData.L3Cache = $"{obj["L3CacheSize"]} MB";
+                    staticData.L1Cache = GetL1Cache();
+                    staticData.L2Cache = FormatCacheMemory(obj["L2CacheSize"]);
+                    staticData.L3Cache = FormatCacheMemory(obj["L3CacheSize"]);
                     staticData.BaseSpeed = $"{obj["MaxClockSpeed"]} GHz";
                     staticData.Cores = obj["NumberOfCores"].ToString();
                     staticData.Sockets = obj["SocketDesignation"].ToString(); // this should probably be 1
@@ -57,10 +57,36 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             return spec;
         }
 
+        private string GetL1Cache()
+        {
+            double L1CacheResult = 0;
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("select * from Win32_CacheMemory");
+            
+            foreach (ManagementObject obj in searcher.Get().Cast<ManagementObject>())
+            {
+                if ((ushort)obj?.GetPropertyValue("Level") == (ushort)3)
+                {
+                    L1CacheResult += Convert.ToInt32(obj?.GetPropertyValue("MaxCacheSize"));
+                }
+            }
+
+            if (L1CacheResult > 0) Math.Round(L1CacheResult /= 1024, 2);
+
+            return $"{L1CacheResult.ToString("0.0")} MB";
+        }
+
+        public string FormatCacheMemory(object cacheSize)
+        {
+            int size = Convert.ToInt32(cacheSize);
+
+            if (size <= 0) return $"0 MB";
+            
+            return $"{(size / 1024.0f).ToString("0.0")} MB";
+        }
+
         public List<StaticPerformanceStats> GetStaticStats()
         {
             GetTabSpecs();
-            // Missing the one for L1 cache
             
             List<StaticPerformanceStats> staticStatsList = new List<StaticPerformanceStats>();
             var staticDataToList = staticData.GetType().GetProperties().ToList();
