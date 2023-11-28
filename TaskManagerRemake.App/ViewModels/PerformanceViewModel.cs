@@ -4,9 +4,12 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Timers;
 using System.Threading.Tasks;
 using TaskManagerRemake.Domain.Models;
 using TaskManagerRemake.Domain.Services.PerformanceTab;
+using System.Windows.Threading;
+using System.Windows.Input;
 
 namespace TaskManagerRemake.WPF.ViewModels
 {
@@ -22,7 +25,7 @@ namespace TaskManagerRemake.WPF.ViewModels
             get => _cpuUsage;
             set {
                 _cpuUsage = value;
-                OnPropertyChanged(nameof(_cpuUsage));
+                OnPropertyChanged(nameof(CpuUsage));
             }
         }
 
@@ -33,7 +36,7 @@ namespace TaskManagerRemake.WPF.ViewModels
             set
             {
                 _ramUsage = value;
-                OnPropertyChanged(nameof(_ramUsage));
+                OnPropertyChanged(nameof(RamUsage));
             }
         }
 
@@ -47,11 +50,28 @@ namespace TaskManagerRemake.WPF.ViewModels
             _cpuTab = new CpuTab();
             _memoryTab = new MemoryTab();
 
-            CpuUsage = _cpuTab.GetCurrentCpuUsage();
+            InitCpuTimer();
+
             RamUsage = _memoryTab.GetAvailableRAM();
 
             StaticStats = new ObservableCollection<StaticPerformanceStats>(_cpuTab.GetStaticStats());
         }
 
+        private void InitCpuTimer()
+        {
+            DispatcherTimer cpuUsageTimer = new DispatcherTimer();
+
+            cpuUsageTimer.Tick += new EventHandler(CpuUsageTimer_Tick);
+            cpuUsageTimer.Interval = TimeSpan.FromSeconds(1);
+            cpuUsageTimer.Start();
+        }
+
+        private void CpuUsageTimer_Tick(Object source, EventArgs e)
+        {
+            float currentUsage = _cpuTab.GetCurrentCpuUsage();           
+            CpuUsage = $"{Math.Round(currentUsage)} %";
+
+            CommandManager.InvalidateRequerySuggested();
+        }
     }
 }
