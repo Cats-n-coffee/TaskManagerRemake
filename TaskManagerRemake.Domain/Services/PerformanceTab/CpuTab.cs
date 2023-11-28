@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Management;
@@ -20,6 +21,7 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             InitPerformanceItem();
         }
 
+        // ================== Dynamic Stats ===============
         private void InitPerformanceItem()
         {
             this.cpuCounter = new PerformanceCounter();
@@ -29,6 +31,14 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             cpuCounter.InstanceName = "_Total";
         }
 
+        public float GetCurrentCpuUsage() // this might be part of a bigger function to use on interface
+        {
+            this.cpuCounter.NextValue();
+            Thread.Sleep(1000);
+            return this.cpuCounter.NextValue();
+        }
+
+        // ============ Static Stats =============
         public string GetTabTitle()
         {
             return title;
@@ -101,11 +111,6 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             }
 
             return staticStatsList;
-        }
-
-        public string GetCurrentCpuUsage() // this might be part of a bigger function to use on interface
-        {
-            return this.cpuCounter.NextValue() + "%";
         }
     }
 }
