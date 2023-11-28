@@ -24,7 +24,6 @@ namespace TaskManagerRemake.WPF.Views
         public PerformanceView()
         {
             InitializeComponent();
-            DataContext = new PerformanceViewModel();
         }
     }
 }
