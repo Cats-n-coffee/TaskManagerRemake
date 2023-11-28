@@ -70,7 +70,7 @@
                                 <!-- Dynamic stats -->
                                 <StackPanel Grid.Column="0">
                                     <TextBlock Text="Dynamic stats"/>
-                                    <TextBlock Text="{Binding CpuUsage}"/>
+                                    <TextBlock Text="{Binding CpuUsage, Mode=OneWay}"/>
                                     <TextBlock Text="{Binding RamUsage}" />
                                 </StackPanel>
                                 
