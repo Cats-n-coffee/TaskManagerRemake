@@ -38,6 +38,72 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             return this.cpuCounter.NextValue();
         }
 
+        public int GetTotalProcesses()
+        {
+            Process[] allProcesses = Process.GetProcesses();
+            int total = allProcesses.Length;
+
+            Debug.WriteLine($"total {total}");
+            return total;
+        }
+
+        public void GetTotalThreadsAndHandles()
+        {
+            Process[] allProcesses = Process.GetProcesses();
+            int totalThreads = 0;
+            int totalHandles = 0;
+
+            for ( int i = 0; i < allProcesses.Length; i++ )
+            {
+                Process process = allProcesses[i];
+                var allProcessThreads = process.Threads;
+                totalThreads += allProcessThreads.Count;
+
+                totalHandles += process.HandleCount;
+            }
+
+            Debug.WriteLine($"threads total: {totalThreads}");
+            Debug.WriteLine($"handles total: {totalHandles}");
+        }
+
+        public void GetCpuCurrentSpeed()
+        {
+            PerformanceCounter cpu1Counter = new PerformanceCounter("Processor Information", "% Processor Performance", "_Total");
+            double cpuValue = cpu1Counter.NextValue();
+ 
+            Thread loop = new Thread(() => InfiniteLoop());
+            loop.Start();
+
+            Thread.Sleep(1000);
+            cpuValue = cpu1Counter.NextValue();
+            loop.Abort();
+
+            foreach (ManagementObject obj in new ManagementObjectSearcher("SELECT *, Name FROM Win32_Processor").Get())
+            {
+                double maxSpeed = Convert.ToDouble(obj["MaxClockSpeed"]) / 1000;
+                double turboSpeed = maxSpeed * cpuValue / 100;
+
+                string res = string.Format("{0} Running at {1:0.00}Ghz, Turbo Speed: {2:0.00}Ghz", obj["Name"], maxSpeed, turboSpeed);
+                Debug.WriteLine($"res {res}");
+            }
+        }
+
+        public void GetSystemUpTime()
+        {
+            PerformanceCounter upTimeCounter = new PerformanceCounter("System", "System Up Time");
+            upTimeCounter.NextValue();
+   
+            TimeSpan time = TimeSpan.FromSeconds(upTimeCounter.NextValue());
+            string formattedTime = time.ToString("dd\\.hh\\:mm\\:ss");
+        }
+        private void InfiniteLoop()
+        {
+            int i = 0;
+
+            while (true)
+                i = i + 1 - 1;
+        }
+
         // ============ Static Stats =============
         public string GetTabTitle()
         {
