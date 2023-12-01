@@ -46,7 +46,7 @@
     <Compile Include="Models\CPUStaticData.cs" />
     <Compile Include="Models\Memory.cs" />
     <Compile Include="Models\ProcessItem.cs" />
-    <Compile Include="Models\StaticPerformanceStats.cs" />
+    <Compile Include="Models\PerformanceStat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\PerformanceTab\CpuTab.cs" />
     <Compile Include="Services\PerformanceTab\IPerformanceItem.cs" />

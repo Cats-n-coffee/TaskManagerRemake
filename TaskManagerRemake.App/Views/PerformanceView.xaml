@@ -68,12 +68,21 @@
                                 </Grid.ColumnDefinitions>
                                 
                                 <!-- Dynamic stats -->
-                                <StackPanel Grid.Column="0">
-                                    <TextBlock Text="Dynamic stats"/>
-                                    <TextBlock Text="{Binding CpuUsage, Mode=OneWay}"/>
-                                    <TextBlock Text="{Binding RamUsage}" />
-                                </StackPanel>
-                                
+                                <DataGrid
+                                    Grid.Column="0"
+                                    ItemsSource="{Binding Source={StaticResource PerfVM}, Path=DynamicStats}"
+                                    AutoGenerateColumns="False"
+                                    CanUserReorderColumns="False"
+                                    CanUserSortColumns="False"
+                                    CanUserResizeRows="False"
+                                    HeadersVisibility="None"
+                                    IsReadOnly="True">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding PerformanceStatKey}"/>
+                                        <DataGridTextColumn Binding="{Binding PerformanceStatValue}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
                                 <!-- Static stats -->
                                 <DataGrid
                                     Grid.Column="1"

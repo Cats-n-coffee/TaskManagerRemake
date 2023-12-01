@@ -15,46 +15,33 @@ namespace TaskManagerRemake.WPF.ViewModels
 {
     public class PerformanceViewModel : ViewModelBase
     {
-        private readonly CpuTab _cpuTab;
-        private readonly MemoryTab _memoryTab;
+        private readonly IPerformanceItem performanceItem;
 
-        private string _cpuUsage;
-
-        public string CpuUsage
+        public ObservableCollection<PerformanceStat> StaticStats { get; set; }
+        private ObservableCollection<PerformanceStat> _dynamicStats;
+        public ObservableCollection<PerformanceStat> DynamicStats
         {
-            get => _cpuUsage;
-            set {
-                _cpuUsage = value;
-                OnPropertyChanged(nameof(CpuUsage));
-            }
-        }
-
-        private string _ramUsage;
-        public string RamUsage
-        {
-            get => _ramUsage;
+            get => _dynamicStats;
             set
             {
-                _ramUsage = value;
-                OnPropertyChanged(nameof(RamUsage));
+                _dynamicStats = value;
+                OnPropertyChanged(nameof(DynamicStats));
             }
         }
-
-        public ObservableCollection<StaticPerformanceStats> StaticStats { get; set; }
 
         public List<IPerformanceItem> performanceDetailsList = new List<IPerformanceItem> ();
 
 
         public PerformanceViewModel()
         {
-            _cpuTab = new CpuTab();
-            _memoryTab = new MemoryTab();
+            // init the Performance tab with the CPU tab as default
+            // any tab that is clicked after that will update the performanceItem field
+            performanceItem = new CpuTab();
 
             InitCpuTimer();
 
-            RamUsage = _memoryTab.GetAvailableRAM();
-
-            StaticStats = new ObservableCollection<StaticPerformanceStats>(_cpuTab.GetStaticStats());
+            StaticStats = new ObservableCollection<PerformanceStat>(performanceItem.GetStaticStats());
+            DynamicStats = new ObservableCollection<PerformanceStat>(performanceItem.GetDynamicStats());
         }
 
         private void InitCpuTimer()
@@ -68,8 +55,7 @@ namespace TaskManagerRemake.WPF.ViewModels
 
         private void CpuUsageTimer_Tick(Object source, EventArgs e)
         {
-            float currentUsage = _cpuTab.GetCurrentCpuUsage();           
-            CpuUsage = $"{Math.Round(currentUsage)} %";
+            DynamicStats = new ObservableCollection<PerformanceStat>(performanceItem.GetDynamicStats());
 
             CommandManager.InvalidateRequerySuggested();
         }
