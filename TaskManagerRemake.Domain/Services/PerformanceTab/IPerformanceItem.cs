@@ -11,6 +11,7 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
     {
         string GetTabTitle();
         string GetTabSpecs();
-        List<StaticPerformanceStats> GetStaticStats();
+        List<PerformanceStat> GetDynamicStats();
+        List<PerformanceStat> GetStaticStats();
     }
 }

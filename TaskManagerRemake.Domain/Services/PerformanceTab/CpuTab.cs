@@ -31,23 +31,23 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             cpuCounter.InstanceName = "_Total";
         }
 
-        public float GetCurrentCpuUsage() // this might be part of a bigger function to use on interface
+        public string GetCurrentCpuUsage()
         {
             this.cpuCounter.NextValue();
             Thread.Sleep(1000);
-            return this.cpuCounter.NextValue();
+            return $"{this.cpuCounter.NextValue()}%";
         }
 
-        public int GetTotalProcesses()
+        public string GetTotalProcesses()
         {
             Process[] allProcesses = Process.GetProcesses();
             int total = allProcesses.Length;
 
             Debug.WriteLine($"total {total}");
-            return total;
+            return total.ToString();
         }
 
-        public void GetTotalThreadsAndHandles()
+        public string[] GetTotalThreadsAndHandles()
         {
             Process[] allProcesses = Process.GetProcesses();
             int totalThreads = 0;
@@ -64,9 +64,14 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
 
             Debug.WriteLine($"threads total: {totalThreads}");
             Debug.WriteLine($"handles total: {totalHandles}");
+            string[] allTotals = new string[2];
+            allTotals[0] = totalThreads.ToString();
+            allTotals[1] = totalHandles.ToString();
+
+            return allTotals;
         }
 
-        public void GetCpuCurrentSpeed()
+        public string GetCpuCurrentSpeed()
         {
             PerformanceCounter cpu1Counter = new PerformanceCounter("Processor Information", "% Processor Performance", "_Total");
             double cpuValue = cpu1Counter.NextValue();
@@ -78,23 +83,28 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             cpuValue = cpu1Counter.NextValue();
             loop.Abort();
 
+            string currentSpeed = "0 GHz";
+
             foreach (ManagementObject obj in new ManagementObjectSearcher("SELECT *, Name FROM Win32_Processor").Get())
             {
                 double maxSpeed = Convert.ToDouble(obj["MaxClockSpeed"]) / 1000;
                 double turboSpeed = maxSpeed * cpuValue / 100;
 
-                string res = string.Format("{0} Running at {1:0.00}Ghz, Turbo Speed: {2:0.00}Ghz", obj["Name"], maxSpeed, turboSpeed);
-                Debug.WriteLine($"res {res}");
+                // string res = string.Format("{0} Running at {1:0.00}Ghz, Turbo Speed: {2:0.00}Ghz", obj["Name"], maxSpeed, turboSpeed);
+                // Debug.WriteLine($"res {res}");
+                currentSpeed = $"{turboSpeed} GHz";
             }
+
+            return currentSpeed;
         }
 
-        public void GetSystemUpTime()
+        public string GetSystemUpTime()
         {
             PerformanceCounter upTimeCounter = new PerformanceCounter("System", "System Up Time");
             upTimeCounter.NextValue();
-   
             TimeSpan time = TimeSpan.FromSeconds(upTimeCounter.NextValue());
-            string formattedTime = time.ToString("dd\\.hh\\:mm\\:ss");
+
+            return time.ToString("dd\\.hh\\:mm\\:ss");
         }
         private void InfiniteLoop()
         {
@@ -102,6 +112,45 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
 
             while (true)
                 i = i + 1 - 1;
+        }
+
+        public List<PerformanceStat> GetDynamicStats()
+        {
+            List<PerformanceStat> stats = new List<PerformanceStat>();
+
+            stats.Add(new PerformanceStat() {
+                PerformanceStatKey = "Utilization",
+                PerformanceStatValue = GetCurrentCpuUsage()
+            }) ;
+            stats.Add(new PerformanceStat()
+            {
+                PerformanceStatKey = "Speed",
+                PerformanceStatValue = GetCpuCurrentSpeed()
+            });
+            stats.Add(new PerformanceStat()
+            {
+                PerformanceStatKey = "Processes",
+                PerformanceStatValue = GetTotalProcesses()
+            });
+
+            string[] threadsAndHandles = GetTotalThreadsAndHandles();
+            stats.Add(new PerformanceStat()
+            {
+                PerformanceStatKey = "Threads",
+                PerformanceStatValue = threadsAndHandles[0]
+            });
+            stats.Add(new PerformanceStat()
+            {
+                PerformanceStatKey = "Handles",
+                PerformanceStatValue = threadsAndHandles[1]
+            });
+            stats.Add(new PerformanceStat()
+            {
+                PerformanceStatKey = "Up Time",
+                PerformanceStatValue = GetSystemUpTime()
+            });
+
+            return stats;
         }
 
         // ============ Static Stats =============
@@ -160,18 +209,18 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             return $"{(size / 1024.0f).ToString("0.0")} MB";
         }
 
-        public List<StaticPerformanceStats> GetStaticStats()
+        public List<PerformanceStat> GetStaticStats()
         {
             GetTabSpecs();
             
-            List<StaticPerformanceStats> staticStatsList = new List<StaticPerformanceStats>();
+            List<PerformanceStat> staticStatsList = new List<PerformanceStat>();
             var staticDataToList = staticData.GetType().GetProperties().ToList();
             
             foreach (System.Reflection.PropertyInfo stat in staticDataToList)
             {
-                StaticPerformanceStats staticItem = new StaticPerformanceStats();
-                staticItem.StaticPerformanceKey = stat.Name;
-                staticItem.StaticPerformanceValue = stat.GetValue(staticData, null).ToString();
+                PerformanceStat staticItem = new PerformanceStat();
+                staticItem.PerformanceStatKey = stat.Name;
+                staticItem.PerformanceStatValue = stat.GetValue(staticData, null).ToString();
 
                 staticStatsList.Add(staticItem);
             }

@@ -28,7 +28,13 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             ramCounter.CounterName = "Available MBytes";
         }
 
-        public string GetTabTitle()
+        public List<PerformanceStat> GetDynamicStats()
+        {
+            List<PerformanceStat> stats = new List<PerformanceStat>();
+            return stats;
+        }
+
+            public string GetTabTitle()
         {
             return title;
         }
@@ -44,10 +50,10 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             return capacityInGb.ToString();
         }
 
-        public List<StaticPerformanceStats> GetStaticStats()
+        public List<PerformanceStat> GetStaticStats()
         {
 
-            return new List<StaticPerformanceStats>();
+            return new List<PerformanceStat>();
         }
 
         public string GetAvailableRAM()
