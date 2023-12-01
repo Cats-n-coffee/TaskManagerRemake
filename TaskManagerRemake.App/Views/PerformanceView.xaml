@@ -85,8 +85,8 @@
                                     HeadersVisibility="None"
                                     IsReadOnly="True">
                                     <DataGrid.Columns>
-                                        <DataGridTextColumn Binding="{Binding StaticPerformanceKey}"/>
-                                        <DataGridTextColumn Binding="{Binding StaticPerformanceValue}"/>
+                                        <DataGridTextColumn Binding="{Binding PerformanceStatKey}"/>
+                                        <DataGridTextColumn Binding="{Binding PerformanceStatValue}"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
 
