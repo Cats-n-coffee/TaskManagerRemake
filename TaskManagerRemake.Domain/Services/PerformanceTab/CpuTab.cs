@@ -35,7 +35,8 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
         {
             this.cpuCounter.NextValue();
             Thread.Sleep(1000);
-            return $"{this.cpuCounter.NextValue()}%";
+
+            return $"{Math.Round(this.cpuCounter.NextValue())}%";
         }
 
         public string GetTotalProcesses()
@@ -43,7 +44,6 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             Process[] allProcesses = Process.GetProcesses();
             int total = allProcesses.Length;
 
-            Debug.WriteLine($"total {total}");
             return total.ToString();
         }
 
@@ -62,8 +62,6 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
                 totalHandles += process.HandleCount;
             }
 
-            Debug.WriteLine($"threads total: {totalThreads}");
-            Debug.WriteLine($"handles total: {totalHandles}");
             string[] allTotals = new string[2];
             allTotals[0] = totalThreads.ToString();
             allTotals[1] = totalHandles.ToString();
@@ -90,9 +88,7 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
                 double maxSpeed = Convert.ToDouble(obj["MaxClockSpeed"]) / 1000;
                 double turboSpeed = maxSpeed * cpuValue / 100;
 
-                // string res = string.Format("{0} Running at {1:0.00}Ghz, Turbo Speed: {2:0.00}Ghz", obj["Name"], maxSpeed, turboSpeed);
-                // Debug.WriteLine($"res {res}");
-                currentSpeed = $"{turboSpeed} GHz";
+                currentSpeed = String.Format("{0:0.00} GHz", turboSpeed);
             }
 
             return currentSpeed;
@@ -116,39 +112,40 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
 
         public List<PerformanceStat> GetDynamicStats()
         {
-            List<PerformanceStat> stats = new List<PerformanceStat>();
-
-            stats.Add(new PerformanceStat() {
-                PerformanceStatKey = "Utilization",
-                PerformanceStatValue = GetCurrentCpuUsage()
-            }) ;
-            stats.Add(new PerformanceStat()
-            {
-                PerformanceStatKey = "Speed",
-                PerformanceStatValue = GetCpuCurrentSpeed()
-            });
-            stats.Add(new PerformanceStat()
-            {
-                PerformanceStatKey = "Processes",
-                PerformanceStatValue = GetTotalProcesses()
-            });
-
             string[] threadsAndHandles = GetTotalThreadsAndHandles();
-            stats.Add(new PerformanceStat()
+            List<PerformanceStat> stats = new List<PerformanceStat>
             {
-                PerformanceStatKey = "Threads",
-                PerformanceStatValue = threadsAndHandles[0]
-            });
-            stats.Add(new PerformanceStat()
-            {
-                PerformanceStatKey = "Handles",
-                PerformanceStatValue = threadsAndHandles[1]
-            });
-            stats.Add(new PerformanceStat()
-            {
-                PerformanceStatKey = "Up Time",
-                PerformanceStatValue = GetSystemUpTime()
-            });
+                new PerformanceStat()
+                {
+                    PerformanceStatKey = "Utilization",
+                    PerformanceStatValue = GetCurrentCpuUsage()
+                },
+                new PerformanceStat()
+                {
+                    PerformanceStatKey = "Speed",
+                    PerformanceStatValue = GetCpuCurrentSpeed()
+                },
+                new PerformanceStat()
+                {
+                    PerformanceStatKey = "Processes",
+                    PerformanceStatValue = GetTotalProcesses()
+                },
+                new PerformanceStat()
+                {
+                    PerformanceStatKey = "Threads",
+                    PerformanceStatValue = threadsAndHandles[0]
+                },
+                new PerformanceStat()
+                {
+                    PerformanceStatKey = "Handles",
+                    PerformanceStatValue = threadsAndHandles[1]
+                },
+                new PerformanceStat()
+                {
+                    PerformanceStatKey = "Up Time",
+                    PerformanceStatValue = GetSystemUpTime()
+                }
+            };
 
             return stats;
         }
