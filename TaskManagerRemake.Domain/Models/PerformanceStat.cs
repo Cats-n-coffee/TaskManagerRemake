@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TaskManagerRemake.Domain.Models
 {
-    public class StaticPerformanceStats
+    public class PerformanceStat
     {
-        public string StaticPerformanceKey { get; set; } = "";
-        public string StaticPerformanceValue { get; set; } = "";
+        public string PerformanceStatKey { get; set; } = "";
+        public string PerformanceStatValue { get; set; } = "";
     }
 }
