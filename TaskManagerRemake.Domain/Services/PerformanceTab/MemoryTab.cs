@@ -34,7 +34,7 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             return stats;
         }
 
-            public string GetTabTitle()
+        public string GetTabTitle()
         {
             return title;
         }
@@ -47,7 +47,7 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
                 .Sum(x => Convert.ToInt64(x.Properties["Capacity"].Value));
             Int64 capacityInGb = capacityInBytes / Convert.ToInt64(Math.Pow(1024, 3));
 
-            return capacityInGb.ToString();
+            return $"{capacityInGb} GB";
         }
 
         public List<PerformanceStat> GetStaticStats()

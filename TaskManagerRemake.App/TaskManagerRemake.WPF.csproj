@@ -156,7 +156,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Styles\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaskManagerRemake.Domain\TaskManagerRemake.Domain.csproj">
       <Project>{768c7559-d467-4a8a-8b2f-4ad7a74c9937}</Project>
