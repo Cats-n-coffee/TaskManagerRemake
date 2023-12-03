@@ -25,24 +25,5 @@ namespace TaskManagerRemake.WPF
         {
             InitializeComponent();
         }
-
-        public void CreateProcessesTab()
-        {
-            // ProcessTab processTab = new ProcessTab();
-            // processTab.InitProcessesTab();
-        }
-
-        public void CreatePerformanceTab()
-        {
-            // PerformanceTab perfTab = new PerformanceTab();
-            // perfTab.InitPerformanceTab();
-
-            // perfTab.GetCurrentCpuUsage();
-            // perfTab.GetAvailableRAM();
-            // Thread.Sleep(100);
-            // string cpuRes = perfTab.GetCurrentCpuUsage();
-            // string ramRes = perfTab.GetAvailableRAM();
-            // Debug.WriteLine($"CPU USAGE {cpuRes}, RAM available {ramRes}");
-        }
     }
 }
