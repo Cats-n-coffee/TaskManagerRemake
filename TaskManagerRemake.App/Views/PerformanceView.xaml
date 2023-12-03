@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewmodel="clr-namespace:TaskManagerRemake.WPF.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodel:PerformanceViewModel}"
-             xmlns:details="clr-namespace:TaskManagerRemake.WPF.Views.DetailViews"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -31,19 +30,21 @@
             </Grid.ColumnDefinitions>
             
             <!-- Performance tabs -->
-            <ListBox Grid.Column="0">
-                <ListBoxItem>
-                    <TextBlock Text="CPU"/>
-                </ListBoxItem>
-                <ListBoxItem>
-                    <TextBlock Text="Memory"/>
-                </ListBoxItem>
-            </ListBox>
+            <ListView Grid.Column="0" ItemsSource="{Binding PerformanceItems, Source={StaticResource PerfVM}}" IsSynchronizedWithCurrentItem="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate DataType="viewmodel:PerformanceItemDisplay">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{Binding TabTitle}"/>
+                            <TextBlock Text="Graph"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
             
             <!-- Tab content -->
-            <ContentControl Grid.Column="1" Content="{Binding Source={StaticResource PerfVM}}">
+            <ContentControl Grid.Column="1" Content="{Binding PerformanceItems, Source={StaticResource PerfVM}}">
                 <ContentControl.ContentTemplate>
-                    <DataTemplate>
+                    <DataTemplate DataType="viewmodel:PerformanceItemDisplay">
                         <Grid>
 
                             <Grid.RowDefinitions>
@@ -52,8 +53,9 @@
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
 
-                            <StackPanel Grid.Row="0">
-                                <TextBlock Text="Tab title + subtitle" />
+                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                <TextBlock Text="{Binding TabTitle}" Margin="0, 0, 10, 0"/>
+                                <TextBlock Text="{Binding TabSpec}" />
                             </StackPanel>
 
                             <StackPanel Grid.Row="1">
@@ -68,25 +70,12 @@
                                 </Grid.ColumnDefinitions>
                                 
                                 <!-- Dynamic stats -->
-                                <DataGrid
-                                    Grid.Column="0"
-                                    ItemsSource="{Binding Source={StaticResource PerfVM}, Path=DynamicStats}"
-                                    AutoGenerateColumns="False"
-                                    CanUserReorderColumns="False"
-                                    CanUserSortColumns="False"
-                                    CanUserResizeRows="False"
-                                    HeadersVisibility="None"
-                                    IsReadOnly="True">
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Binding="{Binding PerformanceStatKey}"/>
-                                        <DataGridTextColumn Binding="{Binding PerformanceStatValue}"/>
-                                    </DataGrid.Columns>
-                                </DataGrid>
-
+                                <TextBlock Grid.Column="0"/>
+                                
                                 <!-- Static stats -->
                                 <DataGrid
                                     Grid.Column="1"
-                                    ItemsSource="{Binding Source={StaticResource PerfVM}, Path=StaticStats}"
+                                    ItemsSource="{Binding StaticStats}"
                                     AutoGenerateColumns="False"
                                     CanUserReorderColumns="False"
                                     CanUserSortColumns="False"
