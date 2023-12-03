@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Timers;
 using System.Threading.Tasks;
 using TaskManagerRemake.Domain.Models;
@@ -15,10 +13,41 @@ namespace TaskManagerRemake.WPF.ViewModels
 {
     public class PerformanceViewModel : ViewModelBase
     {
-        private readonly IPerformanceItem performanceItem;
+        public ObservableCollection<PerformanceItemDisplay> PerformanceItems { get; set; }
+        // private ObservableCollection<PerformanceStat> _dynamicStats;
 
-        public ObservableCollection<PerformanceStat> StaticStats { get; set; }
-        private ObservableCollection<PerformanceStat> _dynamicStats;
+        public PerformanceViewModel()
+        {
+            PerformanceItems = new ObservableCollection<PerformanceItemDisplay>(
+                new List<PerformanceItemDisplay>() 
+                {
+                    new PerformanceItemDisplay("cpu"),
+                    new PerformanceItemDisplay("memory"),
+                }
+                );
+            /*
+
+            InitTimer();
+
+            DynamicStats = new ObservableCollection<PerformanceStat>(performanceItem.GetDynamicStats());*/
+        }
+        /*
+        private void InitTimer()
+        {
+            DispatcherTimer usageTimer = new DispatcherTimer();
+
+            usageTimer.Tick += new EventHandler(Timer_Tick);
+            usageTimer.Interval = TimeSpan.FromSeconds(1);
+            usageTimer.Start();
+        }
+
+        private void Timer_Tick(Object source, EventArgs e)
+        {
+            DynamicStats = new ObservableCollection<PerformanceStat>(performanceItem.GetDynamicStats());
+
+            CommandManager.InvalidateRequerySuggested();
+        }
+        
         public ObservableCollection<PerformanceStat> DynamicStats
         {
             get => _dynamicStats;
@@ -27,37 +56,6 @@ namespace TaskManagerRemake.WPF.ViewModels
                 _dynamicStats = value;
                 OnPropertyChanged(nameof(DynamicStats));
             }
-        }
-
-        public List<IPerformanceItem> performanceDetailsList = new List<IPerformanceItem> ();
-
-
-        public PerformanceViewModel()
-        {
-            // init the Performance tab with the CPU tab as default
-            // any tab that is clicked after that will update the performanceItem field
-            performanceItem = new CpuTab();
-
-            InitCpuTimer();
-
-            StaticStats = new ObservableCollection<PerformanceStat>(performanceItem.GetStaticStats());
-            DynamicStats = new ObservableCollection<PerformanceStat>(performanceItem.GetDynamicStats());
-        }
-
-        private void InitCpuTimer()
-        {
-            DispatcherTimer cpuUsageTimer = new DispatcherTimer();
-
-            cpuUsageTimer.Tick += new EventHandler(CpuUsageTimer_Tick);
-            cpuUsageTimer.Interval = TimeSpan.FromSeconds(1);
-            cpuUsageTimer.Start();
-        }
-
-        private void CpuUsageTimer_Tick(Object source, EventArgs e)
-        {
-            DynamicStats = new ObservableCollection<PerformanceStat>(performanceItem.GetDynamicStats());
-
-            CommandManager.InvalidateRequerySuggested();
-        }
+        }*/
     }
 }

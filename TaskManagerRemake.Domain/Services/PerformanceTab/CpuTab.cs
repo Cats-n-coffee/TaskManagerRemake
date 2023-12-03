@@ -13,6 +13,7 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
     public class CpuTab : IPerformanceItem
     {
         private readonly string title = "CPU";
+        private string Spec { get; set; } = string.Empty;
         private CPUStaticData staticData = new CPUStaticData();
 
         PerformanceCounter cpuCounter;
@@ -83,7 +84,7 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
 
             string currentSpeed = "0 GHz";
 
-            foreach (ManagementObject obj in new ManagementObjectSearcher("SELECT *, Name FROM Win32_Processor").Get())
+            foreach (ManagementObject obj in new ManagementObjectSearcher("SELECT *, Name FROM Win32_Processor").Get().Cast<ManagementObject>())
             {
                 double maxSpeed = Convert.ToDouble(obj["MaxClockSpeed"]) / 1000;
                 double turboSpeed = maxSpeed * cpuValue / 100;
@@ -158,7 +159,11 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
 
         public string GetTabSpecs()
         {
-            string spec = string.Empty;
+            return Spec;
+        }
+
+        public void GetProcessorInfo()
+        {
             using (ManagementObjectSearcher win32Proc = new ManagementObjectSearcher("select * from Win32_Processor"))
             {
                 foreach (ManagementObject obj in win32Proc.Get())
@@ -172,11 +177,9 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
                     staticData.Sockets = obj["SocketDesignation"].ToString(); // this should probably be 1
                     staticData.IsVirtualizationEnabled = obj["VirtualizationFirmwareEnabled"].ToString();
 
-                    spec = obj["Name"].ToString();
+                    Spec = obj["Name"].ToString();
                 }
             }
-
-            return spec;
         }
 
         private string GetL1Cache()
@@ -208,7 +211,7 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
 
         public List<PerformanceStat> GetStaticStats()
         {
-            GetTabSpecs();
+            GetProcessorInfo();
             
             List<PerformanceStat> staticStatsList = new List<PerformanceStat>();
             var staticDataToList = staticData.GetType().GetProperties().ToList();
