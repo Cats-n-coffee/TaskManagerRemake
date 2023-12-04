@@ -74,25 +74,44 @@
                             <!-- Stats -->
                             <Grid Grid.Row="2">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="200"/>
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
                                 
                                 <!-- Dynamic stats -->
-                                <DataGrid
+                                <ListView
                                     Grid.Column="0"
                                     ItemsSource="{Binding DynamicStats}"
-                                    AutoGenerateColumns="False"
-                                    CanUserReorderColumns="False"
-                                    CanUserSortColumns="False"
-                                    CanUserResizeRows="False"
-                                    HeadersVisibility="None"
-                                    IsReadOnly="True">
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Binding="{Binding PerformanceStatKey}"/>
-                                        <DataGridTextColumn Binding="{Binding PerformanceStatValue}"/>
-                                    </DataGrid.Columns>
-                                </DataGrid>
+                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                    BorderThickness="0"
+                                    Background="{StaticResource BrushPrimary1}"
+                                    Foreground="White"
+                                    Focusable="False">
+                                    <ListView.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel/>
+                                        </ItemsPanelTemplate>
+                                    </ListView.ItemsPanel>
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="{StaticResource BrushPrimary1}"/>
+                                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                                    <Setter Property="BorderThickness" Value="0"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Text="{Binding PerformanceStatKey}" FontSize="12" Padding="0, 0, 0, 3"/>
+                                                <TextBlock Text="{Binding PerformanceStatValue}" FontSize="20"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
 
                                 <!-- Static stats -->
                                 <DataGrid
