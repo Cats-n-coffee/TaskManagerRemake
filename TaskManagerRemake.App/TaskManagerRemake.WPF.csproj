@@ -73,12 +73,6 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PerformanceViewModel.cs" />
     <Compile Include="ViewModels\ProcessViewModel.cs" />
-    <Compile Include="Views\DetailViews\CpuDetailsView.xaml.cs">
-      <DependentUpon>CpuDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\DetailViews\MemoryDetailsView.xaml.cs">
-      <DependentUpon>MemoryDetailsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\PerformanceView.xaml.cs">
       <DependentUpon>PerformanceView.xaml</DependentUpon>
     </Compile>
@@ -114,14 +108,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Styles\Common.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\DetailViews\CpuDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\DetailViews\MemoryDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

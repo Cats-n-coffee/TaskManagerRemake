@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TaskManagerRemake.WPF"
         xmlns:views="clr-namespace:TaskManagerRemake.WPF.Views"
         mc:Ignorable="d"
-        Title="Task Manager II" Height="450" Width="800" Background="{StaticResource BrushPrimary1}">
+        Title="Task Manager II" Height="550" Width="800" Background="{StaticResource BrushPrimary1}">
 
     <Grid>
 

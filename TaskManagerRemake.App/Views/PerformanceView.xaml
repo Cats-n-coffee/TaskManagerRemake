@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewmodel="clr-namespace:TaskManagerRemake.WPF.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodel:PerformanceViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="550" d:DesignWidth="800">
 
     <UserControl.Resources>
         <viewmodel:PerformanceViewModel x:Key="PerfVM"/>
@@ -54,18 +54,34 @@
                 Foreground="White">
                 <ContentControl.ContentTemplate>
                     <DataTemplate DataType="viewmodel:PerformanceItemDisplay">
-                        <Grid>
+                        <Grid Margin="15, 15">
 
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="200"/>
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
 
-                            <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                <TextBlock Text="{Binding TabTitle}" Margin="0, 0, 10, 0"/>
-                                <TextBlock Text="{Binding TabSpec}" />
-                            </StackPanel>
+                            <Grid Grid.Row="0">
+                                
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <TextBlock
+                                    Grid.Column="0"
+                                    Text="{Binding TabTitle}"
+                                    VerticalAlignment="Center"
+                                    Margin="0, 0, 10, 0"
+                                    FontSize="24"/>
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Text="{Binding TabSpec}"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Right"
+                                    FontSize="14"/>
+                            </Grid>
 
                             <StackPanel Grid.Row="1">
                                 <TextBlock Text="Graphs area - probably a dynamic grid?" />
@@ -125,6 +141,7 @@
                                     IsReadOnly="True"
                                     GridLinesVisibility="None"
                                     RowBackground="{StaticResource BrushPrimary1}"
+                                    Background="{StaticResource BrushPrimary1}"
                                     Foreground="White"
                                     BorderBrush="Transparent"
                                     BorderThickness="0">
