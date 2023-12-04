@@ -14,14 +14,14 @@
         <Binding Source="{StaticResource PerfVM}"/>
     </UserControl.DataContext>
  
-    <Grid>
+    <Grid Background="{StaticResource BrushPrimary1}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Static performance row"/>
+        <TextBlock Grid.Row="0" Text="Static performance row" Foreground="White"/>
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -30,7 +30,13 @@
             </Grid.ColumnDefinitions>
             
             <!-- Performance tabs -->
-            <ListView Grid.Column="0" ItemsSource="{Binding PerformanceItems, Source={StaticResource PerfVM}}" IsSynchronizedWithCurrentItem="True">
+            <ListView
+                Grid.Column="0"
+                ItemsSource="{Binding PerformanceItems, Source={StaticResource PerfVM}}"
+                IsSynchronizedWithCurrentItem="True"
+                Foreground="White"
+                Background="{StaticResource BrushPrimary1}"
+                BorderThickness="0">
                 <ListView.ItemTemplate>
                     <DataTemplate DataType="viewmodel:PerformanceItemDisplay">
                         <StackPanel Orientation="Vertical">
@@ -42,7 +48,10 @@
             </ListView>
             
             <!-- Tab content -->
-            <ContentControl Grid.Column="1" Content="{Binding PerformanceItems, Source={StaticResource PerfVM}}">
+            <ContentControl
+                Grid.Column="1"
+                Content="{Binding PerformanceItems, Source={StaticResource PerfVM}}"
+                Foreground="White">
                 <ContentControl.ContentTemplate>
                     <DataTemplate DataType="viewmodel:PerformanceItemDisplay">
                         <Grid>
@@ -94,7 +103,12 @@
                                     CanUserSortColumns="False"
                                     CanUserResizeRows="False"
                                     HeadersVisibility="None"
-                                    IsReadOnly="True">
+                                    IsReadOnly="True"
+                                    GridLinesVisibility="None"
+                                    RowBackground="{StaticResource BrushPrimary1}"
+                                    Foreground="White"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Binding="{Binding PerformanceStatKey}"/>
                                         <DataGridTextColumn Binding="{Binding PerformanceStatValue}"/>
