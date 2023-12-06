@@ -8,6 +8,7 @@ using TaskManagerRemake.Domain.Models;
 using TaskManagerRemake.Domain.Services.PerformanceTab;
 using System.Windows.Threading;
 using System.Windows.Input;
+using System.Windows.Controls.DataVisualization.Charting;
 
 namespace TaskManagerRemake.WPF.ViewModels
 {
@@ -15,9 +16,18 @@ namespace TaskManagerRemake.WPF.ViewModels
     {
         public ObservableCollection<PerformanceItemDisplay> PerformanceItems { get; set; }
         // private ObservableCollection<PerformanceStat> _dynamicStats;
-
+        public Dictionary<string, int> FakeData { get; set; }
         public PerformanceViewModel()
         {
+            FakeData = new Dictionary<string, int>
+            {
+                { "aaa", 34 },
+                { "ggg", 23 },
+                { "ppp", 12 },
+                { "oo", 3 },
+                { "ss", 4 }
+            };
+
             PerformanceItems = new ObservableCollection<PerformanceItemDisplay>(
                 new List<PerformanceItemDisplay>() 
                 {

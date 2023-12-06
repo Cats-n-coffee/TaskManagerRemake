@@ -35,6 +35,6 @@
                 </ContentControl>
             </TabItem>
         </TabControl>
-        
+
     </Grid>
 </Window>
