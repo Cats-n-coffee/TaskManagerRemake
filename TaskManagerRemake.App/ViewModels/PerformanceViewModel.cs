@@ -8,7 +8,6 @@ using TaskManagerRemake.Domain.Models;
 using TaskManagerRemake.Domain.Services.PerformanceTab;
 using System.Windows.Threading;
 using System.Windows.Input;
-using System.Windows.Controls.DataVisualization.Charting;
 
 namespace TaskManagerRemake.WPF.ViewModels
 {

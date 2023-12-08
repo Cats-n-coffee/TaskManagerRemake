@@ -4,8 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewmodel="clr-namespace:TaskManagerRemake.WPF.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodel:PerformanceViewModel}"
-             xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=DotNetProjects.DataVisualization.Toolkit"
-             xmlns:visualizationToolkit="clr-namespace:System.Windows.Controls.DataVisualization;assembly=DotNetProjects.DataVisualization.Toolkit"
+      
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="800">
 
@@ -86,25 +85,7 @@
                             </Grid>
 
                             <StackPanel Grid.Row="1">
-                                <chartingToolkit:Chart
-                                    Margin="0, 0, 0, 0"
-                                    Padding="3, 0"
-                                    MinHeight="200"
-                                    VerticalAlignment="Top"
-                                    Background="YellowGreen">
-                                    <chartingToolkit:Chart.LegendStyle>
-                                        <Style TargetType="visualizationToolkit:Legend">
-                                            <Setter Property="Width" Value="0"/>
-                                        </Style>
-                                    </chartingToolkit:Chart.LegendStyle>
-                                    
-                                    <chartingToolkit:LineSeries
-                                        DependentValuePath="Value"
-                                        IndependentValuePath="Key"
-                                        ItemsSource="{Binding FakeData, Source={StaticResource PerfVM}}"
-                                        IsSelectionEnabled="True"
-                                        DataPointStyle="{StaticResource LineChartDataPoints}"/> 
-                                </chartingToolkit:Chart>
+                                
 
                             </StackPanel>
 
