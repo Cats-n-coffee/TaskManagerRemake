@@ -28,6 +28,11 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             ramCounter.CounterName = "Available MBytes";
         }
 
+        public double GetDataForChart()
+        {
+            return 0;
+        }
+
         public List<PerformanceStat> GetDynamicStats()
         {
             List<PerformanceStat> stats = new List<PerformanceStat>();

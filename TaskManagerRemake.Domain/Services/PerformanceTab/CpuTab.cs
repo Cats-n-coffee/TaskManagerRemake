@@ -111,6 +111,14 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
                 i = i + 1 - 1;
         }
 
+        public double GetDataForChart()
+        {
+            this.cpuCounter.NextValue();
+            Thread.Sleep(1000);
+
+            return this.cpuCounter.NextValue();
+        }
+
         public List<PerformanceStat> GetDynamicStats()
         {
             string[] threadsAndHandles = GetTotalThreadsAndHandles();
