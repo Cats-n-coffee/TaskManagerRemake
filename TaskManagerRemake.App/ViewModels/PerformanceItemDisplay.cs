@@ -6,6 +6,9 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Threading;
+using LiveCharts;
+using LiveCharts.Configurations;
+using LiveCharts.Wpf;
 using TaskManagerRemake.Domain.Models;
 using TaskManagerRemake.Domain.Services.PerformanceTab;
 
@@ -18,6 +21,15 @@ namespace TaskManagerRemake.WPF.ViewModels
         public string TabSpec { get; set; }
         public ObservableCollection<PerformanceStat> StaticStats { get; set; }
         public ObservableCollection<PerformanceStat> _dynamicStats;
+        
+        // Chart properties
+        public ChartValues<LineChartValue> _lineChartValues;
+        public double AxisStep { get; set; }
+        public double AxisUnit { get; set; } 
+        public Func<double, string> DateTimeFormatter { get; set; }
+
+        private double _axisMin;
+        private double _axisMax;
 
         public PerformanceItemDisplay(string tabToDisplay)
         {
@@ -27,12 +39,66 @@ namespace TaskManagerRemake.WPF.ViewModels
             InitializeTab();
         }
 
+        public ObservableCollection<PerformanceStat> DynamicStats
+        {
+            get => _dynamicStats;
+            set
+            {
+                _dynamicStats = value;
+                OnPropertyChanged(nameof(DynamicStats));
+            }
+        }
+
+        public ChartValues<LineChartValue> LineChartValues
+        {
+            get => _lineChartValues;
+            set
+            {
+                _lineChartValues = value;
+                OnPropertyChanged(nameof(LineChartValues));
+            }
+        }
+
+        public double AxisMin
+        {
+            get => _axisMin;
+            set
+            {
+                _axisMin = value;
+                OnPropertyChanged(nameof(AxisMin));
+            }
+        }
+
+        public double AxisMax
+        {
+            get => _axisMax;
+            set
+            {
+                _axisMax = value;
+                OnPropertyChanged(nameof(AxisMax));
+            }
+        }
+
         private void InitializeTab()
         {
             TabTitle = selectedTab.GetTabTitle();
             StaticStats = new ObservableCollection<PerformanceStat>(selectedTab.GetStaticStats());
             TabSpec = selectedTab.GetTabSpecs();
             DynamicStats = new ObservableCollection<PerformanceStat>(selectedTab.GetDynamicStats());
+
+            var mapper = Mappers.Xy<LineChartValue>()
+                .X(model => model.CurrentTime.Second)
+                .Y(model => model.Value);
+
+            Charting.For<LineChartValue>(mapper);
+
+            LineChartValues = new ChartValues<LineChartValue>();
+
+            DateTimeFormatter = value => value + " s";
+            AxisStep = TimeSpan.FromSeconds(1).Seconds;
+            AxisUnit = 1;
+
+            UpdateLineChart();
 
             InitTimer();
         }
@@ -50,17 +116,28 @@ namespace TaskManagerRemake.WPF.ViewModels
         {
             DynamicStats = new ObservableCollection<PerformanceStat>(selectedTab.GetDynamicStats());
 
+            UpdateLineChart();
+
             CommandManager.InvalidateRequerySuggested();
         }
 
-        public ObservableCollection<PerformanceStat> DynamicStats
+        private void UpdateLineChart()
         {
-            get => _dynamicStats;
-            set
+            LineChartValues.Add(new LineChartValue
             {
-                _dynamicStats = value;
-                OnPropertyChanged(nameof(DynamicStats));
-            }
+                CurrentTime = DateTime.Now,
+                Value = selectedTab.GetDataForChart(),
+            });
+
+            CalculateMinMaxAxes(DateTime.Now);
+
+            if (LineChartValues.Count > 60) LineChartValues.RemoveAt(0);
+        }
+
+        private void CalculateMinMaxAxes(DateTime now)
+        {
+            AxisMin = now.Second - TimeSpan.FromSeconds(8).Seconds;
+            AxisMax = now.Second + TimeSpan.FromSeconds(1).Seconds;
         }
     }
 }

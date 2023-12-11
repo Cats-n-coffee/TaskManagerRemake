@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewmodel="clr-namespace:TaskManagerRemake.WPF.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodel:PerformanceViewModel}"
-      
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="800">
 
@@ -84,8 +84,27 @@
                                     FontSize="14"/>
                             </Grid>
 
-                            <StackPanel Grid.Row="1">
-                                
+                            <StackPanel Grid.Row="1" MinHeight="200">
+                                <lvc:CartesianChart Height="200">
+                                    <lvc:CartesianChart.Series>
+                                        <lvc:LineSeries
+                                            Values="{Binding LineChartValues}"
+                                            PointGeometry="{x:Null}"
+                                            Stroke="red"
+                                            Fill="{StaticResource BrushAccent2}"/>
+                                    </lvc:CartesianChart.Series>
+                                    <lvc:CartesianChart.AxisX>
+                                        <lvc:Axis
+                                            MaxValue="{Binding AxisMax}"
+                                            MinValue="{Binding AxisMin}"
+                                            Unit="{Binding AxisUnit}"
+                                            LabelFormatter="{Binding DateTimeFormatter}">
+                                            <lvc:Axis.Separator>
+                                                <lvc:Separator Step="{Binding AxisStep}"/>
+                                            </lvc:Axis.Separator>
+                                        </lvc:Axis>
+                                    </lvc:CartesianChart.AxisX>
+                                </lvc:CartesianChart>
 
                             </StackPanel>
 
