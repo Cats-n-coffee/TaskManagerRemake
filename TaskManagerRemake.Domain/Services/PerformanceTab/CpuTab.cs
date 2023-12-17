@@ -72,6 +72,7 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
 
         public string GetCpuCurrentSpeed()
         {
+            /*
             PerformanceCounter cpu1Counter = new PerformanceCounter("Processor Information", "% Processor Performance", "_Total");
             double cpuValue = cpu1Counter.NextValue();
  
@@ -90,9 +91,9 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
                 double turboSpeed = maxSpeed * cpuValue / 100;
 
                 currentSpeed = String.Format("{0:0.00} GHz", turboSpeed);
-            }
+            }*/
 
-            return currentSpeed;
+            return "0.0 GHz";
         }
 
         public string GetSystemUpTime()
@@ -111,12 +112,12 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
                 i = i + 1 - 1;
         }
 
-        public double GetDataForChart()
+        public int GetDataForChart()
         {
             this.cpuCounter.NextValue();
-            Thread.Sleep(1000);
+            Thread.Sleep(750);
 
-            return this.cpuCounter.NextValue();
+            return (int)Math.Round(this.cpuCounter.NextValue());
         }
 
         public List<PerformanceStat> GetDynamicStats()

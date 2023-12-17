@@ -28,7 +28,7 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             ramCounter.CounterName = "Available MBytes";
         }
 
-        public double GetDataForChart()
+        public int GetDataForChart()
         {
             return 0;
         }
