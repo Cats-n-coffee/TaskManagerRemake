@@ -93,15 +93,16 @@
                                             Stroke="red"
                                             Fill="{StaticResource BrushAccent2}"/>
                                     </lvc:CartesianChart.Series>
+                                    <lvc:CartesianChart.AxisY>
+                                        <lvc:Axis
+                                            MaxValue="100"
+                                            MinValue="0"/>
+                                    </lvc:CartesianChart.AxisY>
                                     <lvc:CartesianChart.AxisX>
                                         <lvc:Axis
-                                            MaxValue="{Binding AxisMax}"
-                                            MinValue="{Binding AxisMin}"
-                                            Unit="{Binding AxisUnit}"
+                                            MaxValue="60"
+                                            MinValue="0"                                           
                                             LabelFormatter="{Binding DateTimeFormatter}">
-                                            <lvc:Axis.Separator>
-                                                <lvc:Separator Step="{Binding AxisStep}"/>
-                                            </lvc:Axis.Separator>
                                         </lvc:Axis>
                                     </lvc:CartesianChart.AxisX>
                                 </lvc:CartesianChart>

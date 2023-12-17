@@ -23,7 +23,7 @@ namespace TaskManagerRemake.WPF.ViewModels
         public ObservableCollection<PerformanceStat> _dynamicStats;
         
         // Chart properties
-        public ChartValues<LineChartValue> _lineChartValues;
+        public ChartValues<int> _lineChartValues;
         public double AxisStep { get; set; }
         public double AxisUnit { get; set; } 
         public Func<double, string> DateTimeFormatter { get; set; }
@@ -49,7 +49,7 @@ namespace TaskManagerRemake.WPF.ViewModels
             }
         }
 
-        public ChartValues<LineChartValue> LineChartValues
+        public ChartValues<int> LineChartValues
         {
             get => _lineChartValues;
             set
@@ -86,21 +86,17 @@ namespace TaskManagerRemake.WPF.ViewModels
             TabSpec = selectedTab.GetTabSpecs();
             DynamicStats = new ObservableCollection<PerformanceStat>(selectedTab.GetDynamicStats());
 
-            var mapper = Mappers.Xy<LineChartValue>()
-                .X(model => model.CurrentTime.Second)
-                .Y(model => model.Value);
+            // For testing purposes - will probably need a singleton or similar
+            if (selectedTab.GetType() == typeof(CpuTab))
+            {
+                LineChartValues = new ChartValues<int>();
 
-            Charting.For<LineChartValue>(mapper);
+                DateTimeFormatter = value => value + " s";
 
-            LineChartValues = new ChartValues<LineChartValue>();
+                UpdateLineChart();
 
-            DateTimeFormatter = value => value + " s";
-            AxisStep = TimeSpan.FromSeconds(1).Seconds;
-            AxisUnit = 1;
-
-            UpdateLineChart();
-
-            InitTimer();
+                InitTimer();
+            }
         }
 
         private void InitTimer()
@@ -114,8 +110,9 @@ namespace TaskManagerRemake.WPF.ViewModels
 
         private void Timer_Tick(Object source, EventArgs e)
         {
+            Debug.WriteLine("timer tick BEFORE");
             DynamicStats = new ObservableCollection<PerformanceStat>(selectedTab.GetDynamicStats());
-
+            Debug.WriteLine("timer tick AFTER");
             UpdateLineChart();
 
             CommandManager.InvalidateRequerySuggested();
@@ -123,21 +120,13 @@ namespace TaskManagerRemake.WPF.ViewModels
 
         private void UpdateLineChart()
         {
-            LineChartValues.Add(new LineChartValue
+            var data = selectedTab.GetDataForChart();
+            LineChartValues.Add(data);
+
+            if (LineChartValues.Count > 61)
             {
-                CurrentTime = DateTime.Now,
-                Value = selectedTab.GetDataForChart(),
-            });
-
-            CalculateMinMaxAxes(DateTime.Now);
-
-            if (LineChartValues.Count > 60) LineChartValues.RemoveAt(0);
-        }
-
-        private void CalculateMinMaxAxes(DateTime now)
-        {
-            AxisMin = now.Second - TimeSpan.FromSeconds(8).Seconds;
-            AxisMax = now.Second + TimeSpan.FromSeconds(1).Seconds;
+                LineChartValues.RemoveAt(0);
+            }
         }
     }
 }

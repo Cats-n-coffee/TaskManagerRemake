@@ -44,7 +44,6 @@
   <ItemGroup>
     <Compile Include="Models\CPUDynamicData.cs" />
     <Compile Include="Models\CPUStaticData.cs" />
-    <Compile Include="Models\LineChartValue.cs" />
     <Compile Include="Models\Memory.cs" />
     <Compile Include="Models\ProcessItem.cs" />
     <Compile Include="Models\PerformanceStat.cs" />

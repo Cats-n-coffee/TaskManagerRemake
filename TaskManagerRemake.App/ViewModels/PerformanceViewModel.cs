@@ -24,7 +24,7 @@ namespace TaskManagerRemake.WPF.ViewModels
                     new PerformanceItemDisplay("cpu"),
                     new PerformanceItemDisplay("memory"),
                 }
-                );
+            );
         }
     }
 }
