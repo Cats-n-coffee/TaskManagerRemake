@@ -15,6 +15,7 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
         private readonly string title = "CPU";
         private string Spec { get; set; } = string.Empty;
         private CPUStaticData staticData = new CPUStaticData();
+        private int cpuUsage = 0;
 
         PerformanceCounter cpuCounter;
         public CpuTab()
@@ -34,10 +35,7 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
 
         public string GetCurrentCpuUsage()
         {
-            this.cpuCounter.NextValue();
-            Thread.Sleep(1000);
-
-            return $"{Math.Round(this.cpuCounter.NextValue())}%";
+            return $"{cpuUsage}%";
         }
 
         public string GetTotalProcesses()
@@ -116,8 +114,9 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
         {
             this.cpuCounter.NextValue();
             Thread.Sleep(750);
+            cpuUsage = (int)Math.Round(this.cpuCounter.NextValue());
 
-            return (int)Math.Round(this.cpuCounter.NextValue());
+            return cpuUsage;
         }
 
         public List<PerformanceStat> GetDynamicStats()
@@ -183,7 +182,7 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
                     staticData.L3Cache = FormatCacheMemory(obj["L3CacheSize"]);
                     staticData.BaseSpeed = $"{obj["MaxClockSpeed"]} GHz";
                     staticData.Cores = obj["NumberOfCores"].ToString();
-                    staticData.Sockets = obj["SocketDesignation"].ToString(); // this should probably be 1
+                    staticData.Sockets = "1";
                     staticData.IsVirtualizationEnabled = obj["VirtualizationFirmwareEnabled"].ToString();
 
                     Spec = obj["Name"].ToString();
