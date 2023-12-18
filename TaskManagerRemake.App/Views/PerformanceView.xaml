@@ -59,7 +59,7 @@
 
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
-                                <RowDefinition Height="200"/>
+                                <RowDefinition Height="220"/>
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
 
@@ -84,7 +84,10 @@
                                     FontSize="14"/>
                             </Grid>
 
-                            <StackPanel Grid.Row="1" MinHeight="200">
+                            <StackPanel Grid.Row="1" MinHeight="220">
+                                <StackPanel>
+                                    <TextBlock Text="% Utilization" HorizontalAlignment="Left"/>
+                                </StackPanel>
                                 <lvc:CartesianChart Height="200">
                                     <lvc:CartesianChart.Series>
                                         <lvc:LineSeries
@@ -97,24 +100,23 @@
                                         <lvc:Axis
                                             MaxValue="100"
                                             MinValue="0"
-                                            ShowLabels="False">
+                                            ShowLabels="True">
                                             <lvc:Axis.Separator>
-                                                <lvc:Separator StrokeThickness="0.1"/>
+                                                <lvc:Separator StrokeThickness="0.1" Step="20"/>
                                             </lvc:Axis.Separator>
                                         </lvc:Axis>
                                     </lvc:CartesianChart.AxisY>
                                     <lvc:CartesianChart.AxisX>
                                         <lvc:Axis
                                             MaxValue="60"
-                                            MinValue="0"                                         
-                                            ShowLabels="False">
+                                            MinValue="0"
+                                            ShowLabels="True">
                                             <lvc:Axis.Separator>
-                                                <lvc:Separator StrokeThickness="0.1"/>
+                                                <lvc:Separator StrokeThickness="0.1" Step="60"/>
                                             </lvc:Axis.Separator>
                                         </lvc:Axis>
                                     </lvc:CartesianChart.AxisX>
                                 </lvc:CartesianChart>
-
                             </StackPanel>
 
                             <!-- Stats -->
