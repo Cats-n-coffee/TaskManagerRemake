@@ -8,6 +8,6 @@
     <SolidColorBrush x:Key="BrushPrimary1" Color="{StaticResource ColorPrimary1}"/>
     <SolidColorBrush x:Key="BrushPrimary2" Color="{StaticResource ColorPrimary2}"/>
     <SolidColorBrush x:Key="BrushAccent1" Color="{StaticResource ColorAccent1}"/>
-    <SolidColorBrush x:Key="BrushAccent2" Color="{StaticResource ColorAccent2}"/>
+    <SolidColorBrush x:Key="BrushAccent2" Color="{StaticResource ColorAccent2}" Opacity="0.7"/>
 
 </ResourceDictionary>
