@@ -24,12 +24,6 @@ namespace TaskManagerRemake.WPF.ViewModels
         
         // Chart properties
         public ChartValues<int> _lineChartValues;
-        public double AxisStep { get; set; }
-        public double AxisUnit { get; set; } 
-        public Func<double, string> DateTimeFormatter { get; set; }
-
-        private double _axisMin;
-        private double _axisMax;
 
         public PerformanceItemDisplay(string tabToDisplay)
         {
@@ -59,26 +53,6 @@ namespace TaskManagerRemake.WPF.ViewModels
             }
         }
 
-        public double AxisMin
-        {
-            get => _axisMin;
-            set
-            {
-                _axisMin = value;
-                OnPropertyChanged(nameof(AxisMin));
-            }
-        }
-
-        public double AxisMax
-        {
-            get => _axisMax;
-            set
-            {
-                _axisMax = value;
-                OnPropertyChanged(nameof(AxisMax));
-            }
-        }
-
         private void InitializeTab()
         {
             TabTitle = selectedTab.GetTabTitle();
@@ -90,8 +64,6 @@ namespace TaskManagerRemake.WPF.ViewModels
             if (selectedTab.GetType() == typeof(CpuTab))
             {
                 LineChartValues = new ChartValues<int>();
-
-                DateTimeFormatter = value => value + " s";
 
                 UpdateLineChart();
 

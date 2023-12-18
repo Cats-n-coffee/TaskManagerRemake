@@ -96,7 +96,8 @@
                                     <lvc:CartesianChart.AxisY>
                                         <lvc:Axis
                                             MaxValue="100"
-                                            MinValue="0">
+                                            MinValue="0"
+                                            ShowLabels="False">
                                             <lvc:Axis.Separator>
                                                 <lvc:Separator StrokeThickness="0.1"/>
                                             </lvc:Axis.Separator>
@@ -105,8 +106,8 @@
                                     <lvc:CartesianChart.AxisX>
                                         <lvc:Axis
                                             MaxValue="60"
-                                            MinValue="0"                                           
-                                            LabelFormatter="{Binding DateTimeFormatter}">
+                                            MinValue="0"                                         
+                                            ShowLabels="False">
                                             <lvc:Axis.Separator>
                                                 <lvc:Separator StrokeThickness="0.1"/>
                                             </lvc:Axis.Separator>
