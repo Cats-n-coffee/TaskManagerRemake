@@ -11,9 +11,5 @@
         public float NonPagedPool { get; set; }
 
         // Possibly Static values
-        public int Speed { get; set; }
-        public int Slots { get; set; }
-        public string FormFactor { get; set; }
-        public string HardwareReserved { get; set; }
     }
 }
