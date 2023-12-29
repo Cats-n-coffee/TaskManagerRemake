@@ -224,7 +224,7 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             GetProcessorInfo();
             
             List<PerformanceStat> staticStatsList = new List<PerformanceStat>();
-            var staticDataToList = staticData.GetType().GetProperties().ToList();
+            var staticDataToList = staticData.GetType().GetProperties().ToList(); // Array of keys
             
             foreach (System.Reflection.PropertyInfo stat in staticDataToList)
             {
