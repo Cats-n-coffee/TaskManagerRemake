@@ -23,6 +23,17 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             InitPerformanceItem();
         }
 
+        // ================== Tab Static Texts ===============
+        public string GetTabTitle()
+        {
+            return title;
+        }
+
+        public string GetTabSpecs()
+        {
+            return Spec;
+        }
+
         // ================== Dynamic Stats ===============
         private void InitPerformanceItem()
         {
@@ -160,15 +171,6 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
         }
 
         // ============ Static Stats =============
-        public string GetTabTitle()
-        {
-            return title;
-        }
-
-        public string GetTabSpecs()
-        {
-            return Spec;
-        }
 
         public void GetProcessorInfo()
         {
