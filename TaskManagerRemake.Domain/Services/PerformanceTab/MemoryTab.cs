@@ -12,8 +12,9 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
     public class MemoryTab : IPerformanceItem
     {
         private readonly string title = "Memory";
-        private MemoryStaticData MemoryStaticData = new MemoryStaticData();
+        private readonly MemoryStaticData MemoryStaticData = new MemoryStaticData();
         private ulong totalPhysicalMemory = 0;
+        private int ramCapacity = 0;
         PerformanceCounter ramCounter;
 
         public MemoryTab()
@@ -29,17 +30,18 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
 
         public string GetTabSpecs()
         {
-            return $"{GetRAMCapacity()} GB";
+            return $"{ramCapacity} GB";
         }
 
         // ========================= Dynamic Stats ========================
         private void InitPerformanceItem()
         {
-            // This ramCounter isn't in use when typing this comment
             this.ramCounter = new PerformanceCounter();
 
             ramCounter.CategoryName = "Memory";
             ramCounter.CounterName = "Available MBytes";
+
+            GetRAMCapacity();
         }
 
         public int GetDataForChart()
@@ -47,8 +49,39 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             return 0;
         }
 
+        private int GetInUseCompressedMemory()
+        {
+            return 0;
+        }
+
+        private double GetAvailableMemory()
+        {
+            var val = (this.ramCounter.NextValue() / 1000);
+
+            return Math.Round((double)val, 1);
+        }
+
+        private int GetCommitedMemory()
+        {  return 0;}
+
+        private int GetCachedMemory()
+        {
+            return 0;
+        }
+
+        private int GetPagedMemoryPool()
+        {
+            return 0;
+        }
+
+        private int GetNonPagedMemoryPool()
+        {
+            return 0;
+        }
+
         public List<PerformanceStat> GetDynamicStats()
         {
+            Debug.WriteLine(GetAvailableMemory());
             List<PerformanceStat> stats = new List<PerformanceStat>();
             return stats;
         }
@@ -110,7 +143,8 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
                     {
                         Debug.WriteLine("Speed obj");
                         MemoryStaticData.Speed = $"{obj["Speed"]} MHz";
-                        MemoryStaticData.FormFactor = obj["FormFactor"].ToString();
+                        MemoryStaticData.FormFactor = obj["FormFactor"].ToString(); // this returns an int, is there an enum?
+                        MemoryStaticData.HardwareReserved = GetHardwareReservedMemory();
 
                         if (obj["DeviceLocator"].ToString() != string.Empty) slotsUsed++;
                         MemoryStaticData.Slots = $"{slotsUsed} of {GetTotalMemorySlots()}";
@@ -121,18 +155,21 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
 
         public List<PerformanceStat> GetStaticStats()
         {
-            List<PerformanceStat> staticStats = new List<PerformanceStat>();
             GetMemoryInfo();
-            GetRAMCapacity();
-            GetHardwareReservedMemory();
-            // staticStats.Add(new PerformanceStat { PerformanceStatKey = "Speed", PerformanceStatValue = GetRAMSpeed() }) ;
+
+            List<PerformanceStat> staticStats = new List<PerformanceStat>();
+            var staticDataToList = MemoryStaticData.GetType().GetProperties().ToList();
+
+            foreach ( var item in staticDataToList )
+            {
+                PerformanceStat stat = new PerformanceStat();
+                stat.PerformanceStatKey = item.Name;
+                stat.PerformanceStatValue = item.GetValue(MemoryStaticData, null).ToString();
+
+                staticStats.Add(stat);
+            }
+ 
             return staticStats;
         }
-
-        /*
-        public string GetAvailableRAM()
-        {
-            return this.ramCounter.NextValue() + "Mb";
-        }*/
     }
 }
