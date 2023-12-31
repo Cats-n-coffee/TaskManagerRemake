@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Threading;
 using LiveCharts;
-using LiveCharts.Configurations;
-using LiveCharts.Wpf;
 using TaskManagerRemake.Domain.Models;
 using TaskManagerRemake.Domain.Services.PerformanceTab;
 

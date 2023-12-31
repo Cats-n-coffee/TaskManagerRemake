@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Management;
 using TaskManagerRemake.Domain.Models;
@@ -16,8 +14,10 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
         private string Spec { get; set; } = string.Empty;
         private CPUStaticData staticData = new CPUStaticData();
         private int cpuUsage = 0;
+        private double cpuMaxSpeed = 0;
 
-        PerformanceCounter cpuCounter;
+        PerformanceCounter cpuTimeCounter;
+        PerformanceCounter cpuPerformanceCounter;
         public CpuTab()
         {
             InitPerformanceItem();
@@ -37,18 +37,15 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
         // ================== Dynamic Stats ===============
         private void InitPerformanceItem()
         {
-            this.cpuCounter = new PerformanceCounter();
-
-            cpuCounter.CategoryName = "Processor";
-            cpuCounter.CounterName = "% Processor Time";
-            cpuCounter.InstanceName = "_Total";
+            this.cpuTimeCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+            this.cpuPerformanceCounter = new PerformanceCounter("Processor Information", "% Processor Performance", "_Total");
         }
 
         private void GetCurrentCpuUsage()
         {
-            this.cpuCounter.NextValue();
+            this.cpuTimeCounter.NextValue();
             Thread.Sleep(750);
-            cpuUsage = (int)Math.Round(this.cpuCounter.NextValue());
+            cpuUsage = (int)Math.Round(this.cpuTimeCounter.NextValue());
         }
 
         public string GetTotalProcesses()
@@ -83,36 +80,16 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
 
         public string GetCpuCurrentSpeed()
         {
-            /*
-            PerformanceCounter cpu1Counter = new PerformanceCounter("Processor Information", "% Processor Performance", "_Total");
-            double cpuValue = cpu1Counter.NextValue();
- 
-            Thread loop = new Thread(() => InfiniteLoop());
-            loop.Start();
-
+            cpuPerformanceCounter.NextValue();
             Thread.Sleep(1000);
-            cpuValue = cpu1Counter.NextValue();
-            loop.Abort();
+            double cpuPerf = cpuPerformanceCounter.NextValue();
 
-            string currentSpeed = "0 GHz";
+            double maxSpeed = cpuMaxSpeed / 1000;
+            double turboSpeed = maxSpeed * cpuPerf / 100;
 
-            foreach (ManagementObject obj in new ManagementObjectSearcher("SELECT *, Name FROM Win32_Processor").Get().Cast<ManagementObject>())
-            {
-                double maxSpeed = Convert.ToDouble(obj["MaxClockSpeed"]) / 1000;
-                double turboSpeed = maxSpeed * cpuValue / 100;
+            string currentSpeed = String.Format("{0:0.00} GHz", turboSpeed);
 
-                currentSpeed = String.Format("{0:0.00} GHz", turboSpeed);
-            }*/
-
-            return "0.0 GHz";
-        }
-
-        private void InfiniteLoop()
-        {
-            int i = 0;
-
-            while (true)
-                i = i + 1 - 1;
+            return currentSpeed;
         }
 
         public string GetSystemUpTime()
@@ -189,6 +166,7 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
                     staticData.IsVirtualizationEnabled = obj["VirtualizationFirmwareEnabled"].ToString();
 
                     Spec = obj["Name"].ToString();
+                    cpuMaxSpeed = Convert.ToDouble(obj["MaxClockSpeed"]);
                 }
             }
         }
