@@ -15,6 +15,7 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
         private readonly MemoryStaticData MemoryStaticData = new MemoryStaticData();
         private ulong totalPhysicalMemory = 0;
         private int ramCapacity = 0;
+        private float inUseMemory = 0.0f;
 
         // Available
         PerformanceCounter availableRamCounter;
@@ -74,15 +75,14 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
 
         public int GetDataForChart()
         {
-            return 0;
+            return (int)Math.Round(inUseMemory);
         }
 
-        private double GetInUseMemory()
+        private void GetInUseMemory()
         {
-            double val = Math.Round(this.availableRamCounter.NextValue() / 1000, 1);
-            double inUseMemory = (double)ramCapacity - val;
             // This number seems incorrect, we might need to subtract something
-            return inUseMemory;
+            double val = Math.Round(this.availableRamCounter.NextValue() / 1000, 1);
+            inUseMemory = (float)ramCapacity - (float)val;
         }
 
         private double GetAvailableMemory()
@@ -131,12 +131,14 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
 
         public List<PerformanceStat> GetDynamicStats()
         {
+            GetInUseMemory();
+
             List<PerformanceStat> stats = new List<PerformanceStat>()
             {
                 new PerformanceStat()
                 {
                     PerformanceStatKey = "In Use",
-                    PerformanceStatValue = $"{GetInUseMemory()} GB",
+                    PerformanceStatValue = $"{inUseMemory} GB",
                 },
                 new PerformanceStat()
                 {

@@ -69,6 +69,14 @@ namespace TaskManagerRemake.WPF.ViewModels
 
                 InitTimer();
             }
+            if (selectedTab.GetType() == typeof(MemoryTab))
+            {
+                LineChartValues = new ChartValues<int>();
+
+                UpdateLineChart();
+
+                InitTimer();
+            }
         }
 
         private void InitTimer()
