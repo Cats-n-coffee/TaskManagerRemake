@@ -238,5 +238,11 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
 
             return staticStatsList;
         }
+
+        // ================================ Thumbnail =============================
+        public string GetThumbnailData()
+        {
+            return $"{cpuUsage}%";
+        }
     }
 }

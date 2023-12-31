@@ -42,7 +42,7 @@
                     <DataTemplate DataType="viewmodel:PerformanceItemDisplay">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="{Binding TabTitle}"/>
-                            <TextBlock Text="Graph"/>
+                            <TextBlock Text="{Binding ThumbnailData}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>

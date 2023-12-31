@@ -14,5 +14,6 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
         int GetDataForChart();
         List<PerformanceStat> GetDynamicStats();
         List<PerformanceStat> GetStaticStats();
+        string GetThumbnailData();
     }
 }

@@ -20,7 +20,9 @@ namespace TaskManagerRemake.WPF.ViewModels
         public string TabTitle { get; set; }
         public string TabSpec { get; set; }
         public ObservableCollection<PerformanceStat> StaticStats { get; set; }
-        public ObservableCollection<PerformanceStat> _dynamicStats;
+        private ObservableCollection<PerformanceStat> _dynamicStats;
+
+        public string _thumbnailData;
         
         // Chart properties
         public ChartValues<int> _lineChartValues;
@@ -43,6 +45,16 @@ namespace TaskManagerRemake.WPF.ViewModels
             }
         }
 
+        public string ThumbnailData
+        {
+            get => _thumbnailData;
+            set
+            {
+                _thumbnailData = value;
+                OnPropertyChanged(nameof(ThumbnailData));
+            }
+        }
+
         public ChartValues<int> LineChartValues
         {
             get => _lineChartValues;
@@ -59,27 +71,9 @@ namespace TaskManagerRemake.WPF.ViewModels
             StaticStats = new ObservableCollection<PerformanceStat>(selectedTab.GetStaticStats());
             TabSpec = selectedTab.GetTabSpecs();
             DynamicStats = new ObservableCollection<PerformanceStat>(selectedTab.GetDynamicStats());
+            ThumbnailData = selectedTab.GetThumbnailData();
 
-            // For testing purposes - will probably need a singleton or similar
-            /*
-            if (selectedTab.GetType() == typeof(CpuTab))
-            {
-                LineChartValues = new ChartValues<int>();
-
-                UpdateLineChart();
-
-                InitTimer();
-            }
-            if (selectedTab.GetType() == typeof(MemoryTab))
-            {
-                LineChartValues = new ChartValues<int>();
-
-                UpdateLineChart();
-
-                InitTimer();
-            }*/
             LineChartValues = new ChartValues<int>();
-
             UpdateLineChart();
 
             InitTimer();
@@ -98,6 +92,7 @@ namespace TaskManagerRemake.WPF.ViewModels
         {
             Debug.WriteLine("timer tick BEFORE");
             DynamicStats = new ObservableCollection<PerformanceStat>(selectedTab.GetDynamicStats());
+            ThumbnailData = selectedTab?.GetThumbnailData();
             Debug.WriteLine("timer tick AFTER");
             UpdateLineChart();
 

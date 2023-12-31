@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Management;
-using System.Text;
-using System.Threading.Tasks;
 using TaskManagerRemake.Domain.Models;
 
 namespace TaskManagerRemake.Domain.Services.PerformanceTab
@@ -15,6 +13,7 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
         private readonly MemoryStaticData MemoryStaticData = new MemoryStaticData();
         private ulong totalPhysicalMemory = 0;
         private int ramCapacity = 0;
+        private int hardwareReserved = 0;
         private float inUseMemory = 0.0f;
 
         // Available
@@ -183,7 +182,7 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             ramCapacity = (int)capacityInGb;
         }
 
-        public string GetTotalMemorySlots()
+        private string GetTotalMemorySlots()
         {
             string res;
             using (ManagementObjectSearcher searcher = new ManagementObjectSearcher("Select * from Win32_PhysicalMemoryArray"))
@@ -208,12 +207,12 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
                 }
             }
 
-            ulong hardwareReserved = (totalPhysicalMemory - totalVisibleMemory) / 1024;
+            hardwareReserved = (int)((totalPhysicalMemory - totalVisibleMemory) / 1024);
 
             return $"{hardwareReserved} MB";
         }
 
-        public void GetMemoryInfo()
+        private void GetMemoryInfo()
         {
             int slotsUsed = 0;
             using (ManagementObjectSearcher searcher = new ManagementObjectSearcher("Select * from Win32_PhysicalMemory"))
@@ -250,6 +249,16 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             }
  
             return staticStats;
+        }
+
+        // ================================ Thumbnail =============================
+        public string GetThumbnailData()
+        {
+            float hardwareReservedToGb = ((float)hardwareReserved / 1024);
+            float totalPhysicalAvailable = ramCapacity - hardwareReservedToGb;
+            double percentMemoryUsed = Math.Round((inUseMemory / totalPhysicalAvailable) * 100);
+
+            return $"{inUseMemory}/{Math.Round(totalPhysicalAvailable, 1)} GB ({percentMemoryUsed}%)";
         }
     }
 }
