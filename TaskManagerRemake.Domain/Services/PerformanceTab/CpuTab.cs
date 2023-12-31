@@ -44,9 +44,11 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             cpuCounter.InstanceName = "_Total";
         }
 
-        public string GetCurrentCpuUsage()
+        private void GetCurrentCpuUsage()
         {
-            return $"{cpuUsage}%";
+            this.cpuCounter.NextValue();
+            Thread.Sleep(750);
+            cpuUsage = (int)Math.Round(this.cpuCounter.NextValue());
         }
 
         public string GetTotalProcesses()
@@ -105,14 +107,6 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             return "0.0 GHz";
         }
 
-        public string GetSystemUpTime()
-        {
-            PerformanceCounter upTimeCounter = new PerformanceCounter("System", "System Up Time");
-            upTimeCounter.NextValue();
-            TimeSpan time = TimeSpan.FromSeconds(upTimeCounter.NextValue());
-
-            return time.ToString("dd\\.hh\\:mm\\:ss");
-        }
         private void InfiniteLoop()
         {
             int i = 0;
@@ -121,24 +115,31 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
                 i = i + 1 - 1;
         }
 
+        public string GetSystemUpTime()
+        {
+            PerformanceCounter upTimeCounter = new PerformanceCounter("System", "System Up Time");
+            upTimeCounter.NextValue();
+            TimeSpan time = TimeSpan.FromSeconds(upTimeCounter.NextValue());
+
+            return time.ToString("dd\\.hh\\:mm\\:ss");
+        }
+
         public int GetDataForChart()
         {
-            this.cpuCounter.NextValue();
-            Thread.Sleep(750);
-            cpuUsage = (int)Math.Round(this.cpuCounter.NextValue());
-
             return cpuUsage;
         }
 
         public List<PerformanceStat> GetDynamicStats()
         {
+            GetCurrentCpuUsage();
+
             string[] threadsAndHandles = GetTotalThreadsAndHandles();
             List<PerformanceStat> stats = new List<PerformanceStat>
             {
                 new PerformanceStat()
                 {
                     PerformanceStatKey = "Utilization",
-                    PerformanceStatValue = GetCurrentCpuUsage()
+                    PerformanceStatValue = $"{cpuUsage}%"
                 },
                 new PerformanceStat()
                 {

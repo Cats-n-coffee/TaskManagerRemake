@@ -61,6 +61,7 @@ namespace TaskManagerRemake.WPF.ViewModels
             DynamicStats = new ObservableCollection<PerformanceStat>(selectedTab.GetDynamicStats());
 
             // For testing purposes - will probably need a singleton or similar
+            /*
             if (selectedTab.GetType() == typeof(CpuTab))
             {
                 LineChartValues = new ChartValues<int>();
@@ -76,7 +77,12 @@ namespace TaskManagerRemake.WPF.ViewModels
                 UpdateLineChart();
 
                 InitTimer();
-            }
+            }*/
+            LineChartValues = new ChartValues<int>();
+
+            UpdateLineChart();
+
+            InitTimer();
         }
 
         private void InitTimer()
