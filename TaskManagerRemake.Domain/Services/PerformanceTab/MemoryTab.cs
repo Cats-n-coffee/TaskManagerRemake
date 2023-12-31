@@ -15,7 +15,20 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
         private readonly MemoryStaticData MemoryStaticData = new MemoryStaticData();
         private ulong totalPhysicalMemory = 0;
         private int ramCapacity = 0;
-        PerformanceCounter ramCounter;
+
+        PerformanceCounter availableRamCounter;
+        // Committed
+        PerformanceCounter committedBytesCounter;
+        PerformanceCounter commitLimitCounter;
+        // Cached
+        PerformanceCounter cachedMemoryCounter;
+        PerformanceCounter modifiedPageListBytesCounter;
+        PerformanceCounter standbyCacheCoreBytesCounter;
+        PerformanceCounter standbyCacheNormalPriorityBytesCounter;
+        PerformanceCounter standbyCacheReserveBytesCounter;
+        // Virtual
+        PerformanceCounter pagedPoolCounter;
+        PerformanceCounter nonPagedPoolCounter;
 
         public MemoryTab()
         {
@@ -36,12 +49,24 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
         // ========================= Dynamic Stats ========================
         private void InitPerformanceItem()
         {
-            this.ramCounter = new PerformanceCounter();
-
-            ramCounter.CategoryName = "Memory";
-            ramCounter.CounterName = "Available MBytes";
+            this.availableRamCounter = new PerformanceCounter("Memory", "Available MBytes");
 
             GetRAMCapacity();
+
+            // Committed
+            this.committedBytesCounter = new PerformanceCounter("Memory", "Committed Bytes");
+            this.commitLimitCounter = new PerformanceCounter("Memory", "Commit Limit");
+
+            // Cached
+            this.cachedMemoryCounter = new PerformanceCounter("Memory", "Cache Bytes");
+            this.modifiedPageListBytesCounter = new PerformanceCounter("Memory", "Modified Page List Bytes");
+            this.standbyCacheCoreBytesCounter = new PerformanceCounter("Memory", "Standby Cache Core Bytes");
+            this.standbyCacheNormalPriorityBytesCounter = new PerformanceCounter("Memory", "Standby Cache Normal Priority Bytes");
+            this.standbyCacheReserveBytesCounter = new PerformanceCounter("Memory", "Standby Cache Reserve Bytes");
+
+            // Virtual
+            this.pagedPoolCounter = new PerformanceCounter("Memory", "Pool Paged Bytes");
+            this.nonPagedPoolCounter = new PerformanceCounter("Memory", "Pool Nonpaged Bytes");
         }
 
         public int GetDataForChart()
@@ -49,45 +74,73 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             return 0;
         }
 
-        private int GetInUseCompressedMemory()
+        private double GetInUseMemory()
         {
-            return 0;
+            double val = Math.Round(this.availableRamCounter.NextValue() / 1000, 1);
+            double inUseMemory = (double)ramCapacity - val;
+            // This number seems incorrect, we might need to subtract something
+            return inUseMemory;
         }
 
         private double GetAvailableMemory()
         {
-            var val = (this.ramCounter.NextValue() / 1000);
-
-            return Math.Round((double)val, 1);
+            double val = (this.availableRamCounter.NextValue() / 1000);
+            return Math.Round(val, 1);
         }
 
-        private int GetCommitedMemory()
-        {  return 0;}
-
-        private int GetCachedMemory()
+        private double GetCommittedBytes()
         {
-            return 0;
+            double committedBytes = this.committedBytesCounter.NextValue() / Math.Pow(1024, 3);
+            return Math.Round((double)committedBytes, 1);
         }
 
-        private int GetPagedMemoryPool()
+        private double GetCommitLimit()
         {
-            return 0;
+            double commitLimit = this.commitLimitCounter.NextValue() / Math.Pow(1024, 3);
+            return Math.Round((double)commitLimit, 1);
         }
 
-        private int GetNonPagedMemoryPool()
+        private double GetCachedMemory()
         {
-            return 0;
+            double cachedBytes = this.cachedMemoryCounter.NextValue();
+            double modifiedPageListBytes = this.modifiedPageListBytesCounter.NextValue();
+            double standbyCacheCoreBytes = this.standbyCacheCoreBytesCounter.NextValue();
+            double standbyCachedNormalPriorityBytes = this.standbyCacheNormalPriorityBytesCounter.NextValue();
+            double standbyCachedReserveBytes = this.standbyCacheReserveBytesCounter.NextValue();
+
+            double totalCachedInGb = (cachedBytes + modifiedPageListBytes + standbyCacheCoreBytes
+                + standbyCachedNormalPriorityBytes + standbyCachedReserveBytes) / Math.Pow(1024, 3);
+      
+            return Math.Round(totalCachedInGb, 1);
+        }
+
+        private double GetPagedMemoryPool()
+        {
+            double val = this.pagedPoolCounter.NextValue() / Math.Pow(1024, 3);
+            return Math.Round(val, 1);
+        }
+
+        private double GetNonPagedMemoryPool()
+        {
+            double val = this.nonPagedPoolCounter.NextValue() / Math.Pow(1024, 3);
+            return Math.Round(val, 1);
         }
 
         public List<PerformanceStat> GetDynamicStats()
         {
-            Debug.WriteLine(GetAvailableMemory());
+            Debug.WriteLine("In Use " + GetInUseMemory());
+            Debug.WriteLine("Available " + GetAvailableMemory());
+            Debug.WriteLine($"cached {GetCachedMemory()}");
+            Debug.WriteLine($"committed bytes {GetCommittedBytes()}");
+            Debug.WriteLine($"commit limit {GetCommitLimit()}");
+            Debug.WriteLine("Paged " + GetPagedMemoryPool());
+            Debug.WriteLine("Non paged " + GetNonPagedMemoryPool());
             List<PerformanceStat> stats = new List<PerformanceStat>();
             return stats;
         }
 
         // ======================= Static Stats =========================
-        private int GetRAMCapacity()
+        private void GetRAMCapacity()
         {
             Int64 capacityInBytes = new ManagementObjectSearcher("SELECT Capacity FROM Win32_PhysicalMemory")
                 .Get()
@@ -96,8 +149,7 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
             Int64 capacityInGb = capacityInBytes / Convert.ToInt64(Math.Pow(1024, 3));
 
             totalPhysicalMemory = (ulong)capacityInBytes / Convert.ToUInt64(1024); // kb
-
-            return (int)capacityInGb;
+            ramCapacity = (int)capacityInGb;
         }
 
         public string GetTotalMemorySlots()
@@ -108,7 +160,6 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
                 ManagementObjectCollection objColl = searcher.Get();
                 ManagementObject obj = objColl.OfType<ManagementObject>().FirstOrDefault();
                 res = obj["MemoryDevices"] != null ? obj["MemoryDevices"].ToString() : string.Empty;
-                Debug.WriteLine($"Res is {res}");
             }
 
             return res;
