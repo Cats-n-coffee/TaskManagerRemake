@@ -16,6 +16,7 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
         private ulong totalPhysicalMemory = 0;
         private int ramCapacity = 0;
 
+        // Available
         PerformanceCounter availableRamCounter;
         // Committed
         PerformanceCounter committedBytesCounter;
@@ -128,14 +129,40 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
 
         public List<PerformanceStat> GetDynamicStats()
         {
-            Debug.WriteLine("In Use " + GetInUseMemory());
-            Debug.WriteLine("Available " + GetAvailableMemory());
-            Debug.WriteLine($"cached {GetCachedMemory()}");
-            Debug.WriteLine($"committed bytes {GetCommittedBytes()}");
-            Debug.WriteLine($"commit limit {GetCommitLimit()}");
-            Debug.WriteLine("Paged " + GetPagedMemoryPool());
-            Debug.WriteLine("Non paged " + GetNonPagedMemoryPool());
-            List<PerformanceStat> stats = new List<PerformanceStat>();
+            List<PerformanceStat> stats = new List<PerformanceStat>()
+            {
+                new PerformanceStat()
+                {
+                    PerformanceStatKey = "In Use",
+                    PerformanceStatValue = $"{GetInUseMemory()} GB",
+                },
+                new PerformanceStat()
+                {
+                    PerformanceStatKey = "Available",
+                    PerformanceStatValue = $"{GetAvailableMemory()} GB",
+                },
+                new PerformanceStat()
+                {
+                    PerformanceStatKey = "Committed",
+                    PerformanceStatValue = $"{GetCommittedBytes()}/{GetCommitLimit()} GB",
+                },
+                new PerformanceStat()
+                {
+                    PerformanceStatKey = "Cached",
+                    PerformanceStatValue = $"{GetCachedMemory()} GB",
+                },
+                new PerformanceStat()
+                {
+                    PerformanceStatKey = "Paged Pool",
+                    PerformanceStatValue = $"{GetPagedMemoryPool()} GB",
+                },
+                new PerformanceStat()
+                {
+                    PerformanceStatKey = "Non-paged Pool",
+                    PerformanceStatValue = $"{GetNonPagedMemoryPool()} GB",
+                }
+            };
+
             return stats;
         }
 
@@ -184,7 +211,6 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
 
         public void GetMemoryInfo()
         {
-            Debug.WriteLine("get speed top");
             int slotsUsed = 0;
             using (ManagementObjectSearcher searcher = new ManagementObjectSearcher("Select * from Win32_PhysicalMemory"))
             {
@@ -192,7 +218,6 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
                 {
                     if (obj["Speed"] != null)
                     {
-                        Debug.WriteLine("Speed obj");
                         MemoryStaticData.Speed = $"{obj["Speed"]} MHz";
                         MemoryStaticData.FormFactor = obj["FormFactor"].ToString(); // this returns an int, is there an enum?
                         MemoryStaticData.HardwareReserved = GetHardwareReservedMemory();
