@@ -50,9 +50,11 @@ namespace TaskManagerRemake.Domain.Services.PerformanceTab
         // ========================= Dynamic Stats ========================
         private void InitPerformanceItem()
         {
-            this.availableRamCounter = new PerformanceCounter("Memory", "Available MBytes");
-
             GetRAMCapacity();
+
+            // Init all performance counters
+            // Available
+            this.availableRamCounter = new PerformanceCounter("Memory", "Available MBytes");
 
             // Committed
             this.committedBytesCounter = new PerformanceCounter("Memory", "Committed Bytes");

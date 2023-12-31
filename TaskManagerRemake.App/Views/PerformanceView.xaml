@@ -122,7 +122,7 @@
                             <!-- Stats -->
                             <Grid Grid.Row="2">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="230"/>
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
                                 
@@ -153,7 +153,7 @@
                                     </ListView.ItemContainerStyle>
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
-                                            <StackPanel Orientation="Vertical">
+                                            <StackPanel Orientation="Vertical" Margin="0, 0, 10, 0">
                                                 <TextBlock Text="{Binding PerformanceStatKey}" FontSize="12" Padding="0, 0, 0, 3"/>
                                                 <TextBlock Text="{Binding PerformanceStatValue}" FontSize="20"/>
                                             </StackPanel>
